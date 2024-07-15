@@ -99,31 +99,6 @@
     <!-- 主题切换 -->
     <AppThemeSwitching></AppThemeSwitching>
   </div>
-  <!-- 用户登录注册弹窗 -->
-  <!-- <a-modal
-    width="850px"
-    :footer="false"
-    hide-title
-    v-model:visible="appStore.showLoginDialog"
-  >
-  </a-modal> -->
-  <el-dialog
-    v-model="appStore.showLoginDialog"
-    title="Shipping address"
-    width="850"
-    :show-close="false"
-    top="30vh"
-    destroy-on-close
-  >
-    <template #header>
-      <div></div>
-    </template>
-    <LoginDialog
-      style="margin: -40px 0 -10px 0"
-      :userAccount="userAccount"
-      @CloseDialog="() => (appStore.showLoginDialog = false)"
-    ></LoginDialog>
-  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -135,8 +110,7 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user/user";
 import { useAppStore } from "@/stores/app/app";
 import { ElMessage } from "element-plus";
-import LoginDialog from "@/views/LoginDialog.vue";
-import UserData from "./children/UserData.vue";
+import UserData from "./components/UserData.vue";
 import AppThemeSwitching from "@/components-App/AppThemeSwitching/index.vue";
 
 defineProps<{
@@ -175,7 +149,6 @@ const changeLanguage = () => {
 if (route.query.open_login_dialog && !userData.value) {
   appStore.showLoginDialog = true;
 }
-const userAccount = ref<string>(route.query.account as string);
 
 const goLogin = () => {
   // 切换login
@@ -374,5 +347,4 @@ const goUserPage = () => {};
     border: 1.5px solid var(--jinn-text-color1);
   }
 }
-
 </style>

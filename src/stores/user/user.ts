@@ -22,7 +22,7 @@ const FileIP = import.meta.env.VITE_APP_FILE_IP
 
 export const useUserStore = defineStore('user', () => {
     const userData = ref<UserData | null>()
-
+    
 
     async function getUserData() {
         try {

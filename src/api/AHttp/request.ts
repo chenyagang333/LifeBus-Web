@@ -42,7 +42,11 @@ request.interceptors.response.use((res) => {
             message = error.response?.data;
             break;
         case 401:
-            message = '用户登录过期或未登录，请重新登录。';   
+            if (getToken()) {
+                message = '用户登录过期，请重新登录。';
+            } else {
+                message = '请先登录！';
+            }
             removeToken()
             useAppStore().showLoginDialog = true;
             break;

@@ -3,7 +3,7 @@
     <!-- 用户登录注册弹窗 -->
     <div class="main">
       <!-- Data -->
-      <div class="left">
+      <div class="left" v-if="!appStore.isMobile">
         <el-avatar :size="210" :src="headerImg"></el-avatar>
         <div class="user-name">lifemoment</div>
       </div>
@@ -175,25 +175,26 @@ import {
 } from "@/utils/FormValidation/FormValidation";
 import { ElMessage, ElNotification } from "element-plus";
 import { validateEmail } from "@/utils/FormValidation/RegExpHelper";
+import { useAppStore } from "@/stores/app/app";
 
 const emit = defineEmits<{
   (e: "CloseDialog"): void;
 }>();
 
-const props = defineProps<{
-  userAccount?: string;
-}>();
 
 //#region 路由管理
 
 const route = useRoute();
 const router = useRouter();
 
+const userAccount = ref<string>(route.query.account as string);
+
 //#endregion
 
 const lang = "Layout1."; // 基本参数管理
 
 const UserStore = useUserStore(); // 拿到管理用户信息的仓库
+const appStore = useAppStore(); // 拿到管理用户信息的仓库
 
 //#region 登陆注册弹窗
 
@@ -209,7 +210,7 @@ const goRegister = () => {
 };
 
 //#region 密码登录
-const userName = ref(props.userAccount ?? "");
+const userName = ref(userAccount.value ?? "");
 const password = ref("");
 const userLogin = async () => {
   if (!loginLoading.value) {
@@ -328,7 +329,12 @@ const userRegister = () => {};
   }
   .right {
     text-align: center;
-    width: 66%;
+    @include pc{
+      width: 66%;
+    }
+    @include mobile{
+      width: 100%;
+    }
     margin-right: 10px;
     border: 1px solid var(--el-border-color);
     .lable {

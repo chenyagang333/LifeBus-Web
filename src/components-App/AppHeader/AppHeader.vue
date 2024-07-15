@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="appHeader"
-    :class="headerUp ? 'AppHeaderUp' : 'AppHeaderDown'"
-  >
+  <div class="appHeader" :class="headerUp ? 'AppHeaderUp' : 'AppHeaderDown'">
     <div class="content">
       <div class="left">
         <SignBox
@@ -15,8 +12,11 @@
       </div>
       <SearchBar></SearchBar>
       <div class="right">
-        <RightEntry :headerUp="headerUp"></RightEntry>
-        <RightEntryMobile :headerUp="headerUp"></RightEntryMobile>
+        <RightEntryMobile
+          v-if="appStore.isMobile"
+          :headerUp="headerUp"
+        ></RightEntryMobile>
+        <RightEntry v-else :headerUp="headerUp"></RightEntry>
       </div>
     </div>
     <!-- 关于网站 -->
@@ -96,7 +96,7 @@ const { visible: visibleAboutWeb } =
   // left: 0;
   height: 64px;
   margin-bottom: -64px;
-  z-index: 2;
+  z-index: 100;
   width: 100%;
   .content {
     width: 100%;

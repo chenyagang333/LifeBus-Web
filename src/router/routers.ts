@@ -12,6 +12,9 @@ export const constantRoute = [
     component: () => import("@/views/Layout1/Layout1.vue"),
     name: "layout", // 命名路由
     redirect: "/",
+    meta: {
+      keepAlive: true // 需要缓存
+    },
     children: [
       {
         // 注册
@@ -23,9 +26,6 @@ export const constantRoute = [
         path: "/",
         component: () => import("@/views/Layout1/youshow/youshow.vue"),
         name: "youshow",
-        meta: {
-          keepAlive: true // 需要缓存
-        },
       },
       {
         path: "/search",
@@ -33,17 +33,27 @@ export const constantRoute = [
         name: "search",
       },
       {
-        // 登录成功以后展示数据的路由
         path: "/user",
         component: () => import("@/views/Layout1/user/User.vue"),
         name: "User", // 命名路由
       },
       {
-        // 登录成功以后展示数据的路由
         path: "/userself",
         component: () => import("@/views/Layout1/user/UserSelf.vue"),
         name: "UserSelf", // 命名路由
-      }
+      },
+      {
+        path: "/my",
+        component: () => import("@/views/Layout1/my/my.vue"),
+        name: "my", // 命名路由
+        children: [
+          {
+            path: "/my/message",
+            component: () => import("@/views/Layout1/my/message/message.vue"),
+            name: "message", // 命名路由
+          },
+        ]
+      },
     ],
   },
   {

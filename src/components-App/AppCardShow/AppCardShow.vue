@@ -73,11 +73,15 @@
           @changeLikeState="(active: boolean) => changeState(detailData,0,active)"
           @changeStarState="(active: boolean) => changeState(detailData,1,active)"
         ></AppCard>
-        <template #commentArea>
-          <AppTabs
-            :showId="detailData?.id"
-            v-model:commentCount="detailData.commentCount"
-          ></AppTabs
+        <template #tabs>
+          <AppTabs>
+            <template #comment>
+              <AppComment
+                :byId="detailData?.id"
+                :commentCount="detailData.commentCount"
+                @addCommentCount="(count:number) => detailData.commentCount += count"
+              ></AppComment>
+            </template> </AppTabs
         ></template>
       </commentDialog>
       <!-- 预览图 -->
@@ -106,6 +110,7 @@ import commentDialog from "./components/comment-dialog.vue";
 import load from "./components/load.vue";
 import { get } from "@/api/AHttp/api";
 import JinnImageViewer from "@/components/jinn-components/jinn-image-viewer/JinnImageViewer.vue";
+import AppComment from "@/components-App/AppComment/AppComment.vue";
 
 const app = getCurrentInstance();
 const FileIP: string = app?.appContext.config.globalProperties.$FileIP;
@@ -206,7 +211,6 @@ const detailData = ref<ShowType>({
   id: 270,
 });
 
-
 //#endregion
 
 //#region 列表卡片绑定事件模块
@@ -244,7 +248,7 @@ const changeState = async (data: ShowType, typeI: number, active: boolean) => {
     if (typeI == 0) {
       data.likeActive = active;
       data.likeCount += active ? 1 : -1;
-    }else if(typeI == 1){
+    } else if (typeI == 1) {
       data.starActive = active;
       data.starCount += active ? 1 : -1;
     }
@@ -254,7 +258,7 @@ const changeState = async (data: ShowType, typeI: number, active: boolean) => {
     if (typeI == 0) {
       data.likeActive = !active;
       data.likeCount += !active ? 1 : -1;
-    }else if(typeI == 1){
+    } else if (typeI == 1) {
       data.starActive = !active;
       data.starCount += !active ? 1 : -1;
     }

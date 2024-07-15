@@ -258,6 +258,7 @@ const handleOkSetData = (relative: string) => {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: relative;
         @include mobile {
           padding-right: 10px;
           padding-left: 10px;
@@ -266,7 +267,7 @@ const handleOkSetData = (relative: string) => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: 80%;
+          width: 100%;
           .el-avatar {
             border: 1px solid var(--jinn-color1);
           }
@@ -301,17 +302,20 @@ const handleOkSetData = (relative: string) => {
             }
             .description {
               font-size: 13px;
-              width: 86%;
+              width: 70%;
+              max-width: calc(100% - 88px);
               color: var(--jinn-text-color1);
             }
           }
         }
         .options {
+          position: absolute;
+          right: 20px;
+          bottom: 20px;
           height: 100%;
           display: flex;
           flex-direction: column-reverse;
           .el-button {
-            margin-bottom: 20px;
           }
         }
       }

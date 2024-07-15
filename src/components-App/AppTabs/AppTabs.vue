@@ -4,20 +4,17 @@
       stretch
       v-model="drawerTab"
       :style="{ '--el-color-primary': computedTabColor }"
-      style="height: 36px;"
+      style="height: 36px"
     >
       <el-tab-pane label="TA的作品" name="TA">
         <template #label>
-          <span style="color: #ff9800;">TA的作品</span>
+          <span style="color: #ff9800">TA的作品</span>
         </template>
       </el-tab-pane>
-      <el-tab-pane
-      label="评论"
-      name="comment"
-      >
-      <template #label>
-        <span style="color: #00bcd4;">评论</span>
-      </template>
+      <el-tab-pane label="评论" name="comment">
+        <template #label>
+          <span style="color: #00bcd4">评论</span>
+        </template>
       </el-tab-pane>
     </el-tabs>
     <div class="base-tab-pane" v-show="drawerTab == 'TA'">
@@ -26,10 +23,7 @@
       <slot name="TA"></slot>
     </div>
     <div class="base-tab-pane" v-show="drawerTab == 'comment'">
-      <AppComment
-        :byId="showId"
-        v-model:comment-count="commentCount"
-      ></AppComment>
+      <slot name="comment"></slot>
     </div>
   </div>
 </template>
@@ -37,16 +31,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import JinnComment from "@/components/jinn-components/jinn-comment/jinn-comment.vue";
-import AppComment from "@/components-App/AppComment/AppComment.vue";
 
-const props = defineProps<{
-  showId: number;
-}>();
 
-const commentCount = defineModel<number>("commentCount", {
-  required: true,
-  default: 0,
-});
 
 const drawerTab = ref("comment");
 

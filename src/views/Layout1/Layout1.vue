@@ -2,12 +2,7 @@
   <div class="layout1">
     <AppHeader :headerUp="headerUp"></AppHeader>
     <div class="layout-router-view">
-      <div
-        id="LifeMomentAppHeaderBc"
-        class="HeaderBc"
-        :class="AppStore.theme === 'light' ? 'HeaderBcLight' : 'HeaderBcDark'"
-        :style="{ height: showTopImg ? '' : '0px' }"
-      ></div>
+      <HeaderBc id="LifeMomentAppHeaderBc" :showTopImg="showTopImg"> </HeaderBc>
       <div class="AppRouterViewContent">
         <AppSidebarLeft
           style="width: 140px"
@@ -38,9 +33,29 @@
       </div>
     </el-backtop>
     <!-- 用户签到组件 -->
-    <AppSignInDialog></AppSignInDialog>
+    <AppSignInDialog v-if="appStore.signInVisible"></AppSignInDialog>
+    <!-- 用户登录注册弹窗 -->
+    <el-dialog
+      v-model="appStore.showLoginDialog"
+      title="Shipping address"
+      width="850"
+      :show-close="false"
+      top="30vh"
+      :fullscreen="appStore.isMobile"
+      destroy-on-close
+      append-to-body
+    >
+      <template #header>
+        <div></div>
+      </template>
+      <LoginDialog
+        style="margin: -40px 0 -10px 0"
+        @CloseDialog="() => (appStore.showLoginDialog = false)"
+      ></LoginDialog>
+    </el-dialog>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
@@ -51,9 +66,10 @@ import { onMounted, onBeforeUnmount, ref } from "vue";
 import AppSidebarLeft from "@/components-App/AppSidebar/AppSidebarLeft.vue";
 import AppSignInDialog from "@/components-App/AppSignIn/AppSignInDialog.vue";
 import { useDebounceFn } from "@vueuse/core";
-import ddddasdas from "./ddd.vue";
+import HeaderBc from "./components/HeaderBc.vue";
+import LoginDialog from "@/views/LoginDialog.vue";
 const store = useAppStore(); //
-const AppStore = useAppStore(); //
+const appStore = useAppStore(); //
 const { headerUp } = storeToRefs(store);
 
 const route = useRoute();
@@ -64,9 +80,9 @@ const router = useRouter();
 // 切换顶部导航栏样式
 const ChangeHeaderStatus = (entry: any) => {
   if (entry[0].isIntersecting) {
-    AppStore.headerUp = true;
+    appStore.headerUp = true;
   } else {
-    AppStore.headerUp = false;
+    appStore.headerUp = false;
   }
 };
 
@@ -114,13 +130,14 @@ const showTopImg = ref<boolean>(true);
 
 // 配置站点顶部背景
 const configShowTopImg = (name: string) => {
-  if (["User", "UserSelf"].includes(name)) {
-    if (showTopImg.value) {
-      showTopImg.value = false;
-    }
-  } else {
+  // if (!["User", "UserSelf"].includes(name)) {
+  if (["youshow", "search"].includes(name)) {
     if (!showTopImg.value) {
       showTopImg.value = true;
+    }
+  } else {
+    if (showTopImg.value) {
+      showTopImg.value = false;
     }
   }
 };
@@ -138,8 +155,8 @@ const screenWidth = ref(0);
 const listeningWindow = useDebounceFn(() => {
   screenWidth.value = document.body.clientWidth;
   // 在这里规定 宽度小于 769 视为移动端设备 // 和媒介查询宽度设置一致
-  if (!AppStore.isMobile && screenWidth.value < 769) AppStore.isMobile = true;
-  if (AppStore.isMobile && screenWidth.value > 768) AppStore.isMobile = false;
+  if (!appStore.isMobile && screenWidth.value < 769) appStore.isMobile = true;
+  if (appStore.isMobile && screenWidth.value > 768) appStore.isMobile = false;
 }, 100);
 listeningWindow();
 window.addEventListener("resize", listeningWindow, false);
@@ -202,33 +219,16 @@ onBeforeUnmount(() => {
   // }
 
   .layout-router-view {
-    .HeaderBc {
-      height: 155px;
-      width: 100%;
-      background-color: #ffffff;
-      background-repeat: no-repeat;
-      background-size: cover;
-      // background-position: center top -240px; /* 负值表示往上移动 */
-      background-position: center; /* 负值表示往上移动 */
-      overflow: hidden;
-      // transition: height 0.3s ease-in-out;
-      position: relative;
-    }
     .AppRouterViewContent {
       display: flex;
       justify-content: center;
+      gap:10px;
       .AppSidebarLeft1 {
         margin-top: 10px;
       }
       .AppSidebarLeft2 {
-        margin: 100px 10px 0 0;
+        margin: 100px 0 0 0;
       }
-    }
-    .HeaderBcLight {
-      background-image: url("@/assets/home/hope.jpg");
-    }
-    .HeaderBcDark {
-      background-image: url("@/assets/home/123.jpg");
     }
     @media (min-height: 788px) {
       min-height: calc(100vh - 140px);

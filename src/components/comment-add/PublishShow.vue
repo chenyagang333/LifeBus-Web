@@ -1,10 +1,7 @@
 <template>
   <div class="publish-show">
     <!-- 上传内容 -->
-    <div
-      class="container"
-      v-click-outside="onClickOutside"
-    >
+    <div class="container" v-click-outside="onClickOutside">
       <div class="main" @click="clickInput">
         <custom-input
           placeholder="发表你的说说"
@@ -104,24 +101,27 @@
         </el-icon>
         <div class="el-upload__text">图片/视频</div>
       </el-upload>
-
-      <el-dialog v-model="dialogVisible" width="900">
-        <div class="media">
-          <img
-            v-if="dialogFile.fileType === FileType.image"
-            :src="dialogFile.url"
-            alt="Preview Image"
-            fit="contain"
-          />
-          <video
-            v-if="dialogFile.fileType === FileType.video"
-            :src="dialogFile.url"
-            autoplay
-            controls
-          />
-        </div>
-      </el-dialog>
     </el-card>
+    <el-dialog
+      v-model="dialogVisible"
+      width="900"
+      :fullscreen="appStore.isMobile"
+    >
+      <div class="media">
+        <img
+          v-if="dialogFile.fileType === FileType.image"
+          :src="dialogFile.url"
+          alt="Preview Image"
+          fit="contain"
+        />
+        <video
+          v-if="dialogFile.fileType === FileType.video"
+          :src="dialogFile.url"
+          autoplay
+          controls
+        />
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -135,6 +135,8 @@ import { imageType, videoType, FileType } from "@/utils/FileUtils/FileType";
 import { handleVideoFileSelect } from "@/utils/FileUtils/VideoFile";
 import { nextTick } from "vue";
 import { ClickOutside as vClickOutside } from "element-plus";
+import { useAppStore } from "@/stores/app/app";
+import useEventListenerPopstate from "@/hooks/useEventListenerPopstate";
 
 const emit = defineEmits<{
   (
@@ -144,6 +146,8 @@ const emit = defineEmits<{
     submit: () => Promise<void>
   ): void;
 }>();
+
+const appStore = useAppStore();
 
 const publishEd = ref<boolean>(false);
 const publishHandle = async () => {
@@ -229,7 +233,9 @@ watch(fileListLength, async (newLength, oldLength) => {
 });
 
 const dialogFile = ref();
-const dialogVisible = ref(false);
+const { visible: dialogVisible } = useEventListenerPopstate(
+  "publishShowFileImageView"
+);
 
 const handleRemove = (file: UploadFile) => {
   upload.value.handleRemove(file);
@@ -310,26 +316,26 @@ const handlePictureCardPreview = (file: any) => {
       cursor: default;
     }
 
-    .el-dialog {
-      .media {
+  }
+  .el-dialog {
+    .media {
+      width: 100%;
+      height: 500px;
+      background-color: var(--jinn-bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
         width: 100%;
-        height: 500px;
-        background-color: var(--jinn-bg3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        height: 100%;
+        object-fit: contain;
+      }
 
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-        }
-
-        video {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-        }
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
     }
   }

@@ -15,9 +15,9 @@
       :infinite-scroll-disabled="commentLoadEnd"
     >
       <!-- new-add-comment-area -->
-      <template v-if="newComments.length > 0">
+      <template v-if="showNewComments">
         <JinnList :data-source="newComments" columnReverse>
-          <template #renderItem="{ item: c, index, itemRef: newCRef }">
+          <template #renderItem="{ item: c, index: cIndex, itemRef: newCRef }">
             <JinnComment ref="newCommentRefs">
               <template #avatar>
                 <el-avatar
@@ -58,7 +58,18 @@
                 ></comment-option>
               </template>
               <template #options
-                ><AppCommentOptions :showDelete="true" @delete="">
+                ><AppCommentOptions
+                  :userId="c.userId"
+                  @delete="
+                    deleteData(
+                      c.id,
+                      CommentType.Comment,
+                      1 + c.replyCount,
+                      newComments,
+                      cIndex
+                    )
+                  "
+                >
                 </AppCommentOptions
               ></template>
               <AppExpandReply
@@ -70,59 +81,62 @@
                 @closeReply="closeReply(c, newCRef)"
                 @loadReply="(loaded:Function) => loadReply(c,loaded)"
               >
-                <template v-if="c.replyList && c.replyList.length > 0">
-                  <JinnList :data-source="c.replyList">
-                    <template #renderItem="{ item: r, index }">
-                      <JinnComment>
-                        <template #avatar>
-                          <el-avatar
-                            :size="20"
-                            :src="FileIP + r.userAvatarURL"
-                          ></el-avatar>
+                <JinnList :data-source="c.replyList">
+                  <template #renderItem="{ item: r, index: rIndex }">
+                    <JinnComment>
+                      <template #avatar>
+                        <el-avatar
+                          :size="20"
+                          :src="FileIP + r.userAvatarURL"
+                        ></el-avatar>
+                      </template>
+                      <template #author>
+                        <AppCommentAuthor
+                          :userName="r.userName"
+                          :toUserName="r.toUserName"
+                        ></AppCommentAuthor>
+                      </template>
+                      <template #content>
+                        <JinnContent :content="r.content"></JinnContent>
+                        <template v-if="false">
+                          <JinnContentFiles :urls="['']"></JinnContentFiles>
                         </template>
-                        <template #author>
-                          <AppCommentAuthor
-                            :userName="r.userName"
-                            :toUserName="r.toUserName"
-                          ></AppCommentAuthor>
-                        </template>
-                        <template #content>
-                          <JinnContent :content="r.content"></JinnContent>
-                          <template v-if="false">
-                            <JinnContentFiles :urls="['']"></JinnContentFiles>
-                          </template>
-                        </template>
-                        <template #datetime>
-                          {{ r.createTime }}
-                        </template>
-                        <template #actions>
-                          <AppCommentSendTip
-                            :sendIng="r.sendIng"
-                            :sendError="r.sendError"
-                          ></AppCommentSendTip>
-                          <comment-option2
-                            type="chat"
-                            :size="15"
-                            text="回复"
-                            @click="replyHandler(c, newCRef, true)"
-                          ></comment-option2>
-                          <comment-option
-                            :count="r.likeCount"
-                            :active="r.likeActive"
-                            bottom="3px"
-                            @change-status="(active:boolean) =>changeStatus(CommentType.Reply,r, active)"
-                            type="heart"
-                            :size="16"
-                          ></comment-option>
-                        </template>
-                        <template #options
-                          ><AppCommentOptions :showDelete="true" @delete="">
-                          </AppCommentOptions
-                        ></template>
-                      </JinnComment>
-                    </template>
-                  </JinnList>
-                </template>
+                      </template>
+                      <template #datetime>
+                        {{ r.createTime }}
+                      </template>
+                      <template #actions>
+                        <AppCommentSendTip
+                          :sendIng="r.sendIng"
+                          :sendError="r.sendError"
+                        ></AppCommentSendTip>
+                        <comment-option2
+                          type="chat"
+                          :size="15"
+                          text="回复"
+                          @click="replyHandler(c, newCRef, true, r)"
+                        ></comment-option2>
+                        <comment-option
+                          :count="r.likeCount"
+                          :active="r.likeActive"
+                          bottom="3px"
+                          @change-status="(active:boolean) =>changeStatus(CommentType.Reply,r, active)"
+                          type="heart"
+                          :size="16"
+                        ></comment-option>
+                      </template>
+                      <template #options
+                        ><AppCommentOptions
+                          :userId="r.userId"
+                          @delete="
+                            deleteData(r.id, CommentType.Reply, 1, c, rIndex)
+                          "
+                        >
+                        </AppCommentOptions
+                      ></template>
+                    </JinnComment>
+                  </template>
+                </JinnList>
               </AppExpandReply>
             </JinnComment>
           </template>
@@ -130,7 +144,7 @@
       </template>
       <!-- comment-area -->
       <JinnList :data-source="comments">
-        <template #renderItem="{ item: c, index, itemRef: cRef }">
+        <template #renderItem="{ item: c, index: cIndex, itemRef: cRef }">
           <JinnComment ref="commentRefs">
             <template #avatar>
               <el-avatar :size="40" :src="FileIP + c.userAvatarURL"></el-avatar>
@@ -168,7 +182,18 @@
               ></comment-option>
             </template>
             <template #options
-              ><AppCommentOptions :showDelete="true" @delete="">
+              ><AppCommentOptions
+                :userId="c.userId"
+                @delete="
+                  deleteData(
+                    c.id,
+                    CommentType.Comment,
+                    1 + c.replyCount,
+                    comments,
+                    cIndex
+                  )
+                "
+              >
               </AppCommentOptions
             ></template>
             <AppExpandReply
@@ -180,59 +205,62 @@
               @closeReply="closeReply(c, cRef)"
               @loadReply="(loaded:Function) => loadReply(c,loaded)"
             >
-              <template v-if="c.replyList && c.replyList.length > 0">
-                <JinnList :data-source="c.replyList">
-                  <template #renderItem="{ item: r, index }">
-                    <JinnComment>
-                      <template #avatar>
-                        <el-avatar
-                          :size="20"
-                          :src="FileIP + r.userAvatarURL"
-                        ></el-avatar>
+              <JinnList :data-source="c.replyList">
+                <template #renderItem="{ item: r, index: rIndex }">
+                  <JinnComment>
+                    <template #avatar>
+                      <el-avatar
+                        :size="20"
+                        :src="FileIP + r.userAvatarURL"
+                      ></el-avatar>
+                    </template>
+                    <template #author>
+                      <AppCommentAuthor
+                        :userName="r.userName"
+                        :toUserName="r.toUserName"
+                      ></AppCommentAuthor>
+                    </template>
+                    <template #content>
+                      <JinnContent :content="r.content"></JinnContent>
+                      <template v-if="false">
+                        <JinnContentFiles :urls="['']"></JinnContentFiles>
                       </template>
-                      <template #author>
-                        <AppCommentAuthor
-                          :userName="r.userName"
-                          :toUserName="r.toUserName"
-                        ></AppCommentAuthor>
-                      </template>
-                      <template #content>
-                        <JinnContent :content="r.content"></JinnContent>
-                        <template v-if="false">
-                          <JinnContentFiles :urls="['']"></JinnContentFiles>
-                        </template>
-                      </template>
-                      <template #datetime>
-                        {{ r.createTime }}
-                      </template>
-                      <template #actions>
-                        <AppCommentSendTip
-                          :sendIng="r.sendIng"
-                          :sendError="r.sendError"
-                        ></AppCommentSendTip>
-                        <comment-option2
-                          type="chat"
-                          :size="15"
-                          text="回复"
-                          @click="replyHandler(c, cRef, true)"
-                        ></comment-option2>
-                        <comment-option
-                          :count="r.likeCount"
-                          :active="r.likeActive"
-                          bottom="3px"
-                          @change-status="(active:boolean) =>changeStatus(CommentType.Reply,r, active)"
-                          type="heart"
-                          :size="16"
-                        ></comment-option>
-                      </template>
-                      <template #options
-                        ><AppCommentOptions :showDelete="true" @delete="">
-                        </AppCommentOptions
-                      ></template>
-                    </JinnComment>
-                  </template>
-                </JinnList>
-              </template>
+                    </template>
+                    <template #datetime>
+                      {{ r.createTime }}
+                    </template>
+                    <template #actions>
+                      <AppCommentSendTip
+                        :sendIng="r.sendIng"
+                        :sendError="r.sendError"
+                      ></AppCommentSendTip>
+                      <comment-option2
+                        type="chat"
+                        :size="15"
+                        text="回复"
+                        @click="replyHandler(c, cRef, true, r)"
+                      ></comment-option2>
+                      <comment-option
+                        :count="r.likeCount"
+                        :active="r.likeActive"
+                        bottom="3px"
+                        @change-status="(active:boolean) =>changeStatus(CommentType.Reply,r, active)"
+                        type="heart"
+                        :size="16"
+                      ></comment-option>
+                    </template>
+                    <template #options
+                      ><AppCommentOptions
+                        :userId="r.userId"
+                        @delete="
+                          deleteData(r.id, CommentType.Reply, 1, c, rIndex)
+                        "
+                      >
+                      </AppCommentOptions
+                    ></template>
+                  </JinnComment>
+                </template>
+              </JinnList>
             </AppExpandReply>
           </JinnComment>
         </template>
@@ -269,7 +297,7 @@ import JinnContent from "@/components/jinn-components/jinn-content/jinn-content.
 import JinnContentFiles from "@/components/jinn-components/jinn-content/jinn-content-files/jinn-content-files.vue";
 import CommentOption from "@/components/comment-option/category1.vue";
 import CommentOption2 from "@/components/comment-option/category2.vue";
-import { ApiResult, get, post } from "@/api/AHttp/api";
+import { ApiResult, del, get, post } from "@/api/AHttp/api";
 import CommentAdd from "@/components/comment-add/CommentAdd.vue";
 import AppCommentOptions from "./components/AppCommentOptions.vue";
 import AppExpandReply from "./components/AppExpandReply.vue";
@@ -280,6 +308,10 @@ import { useUserStore } from "@/stores/user/user";
 import { storeToRefs } from "pinia";
 import GetNowData from "@/utils/Time/NowDate";
 import { ElMessage } from "element-plus";
+
+const emit = defineEmits<{
+  (e: "addCommentCount", count: number): void;
+}>();
 
 const app = getCurrentInstance();
 const FileIP: string = app?.appContext.config.globalProperties.$FileIP;
@@ -304,6 +336,7 @@ const commentContainerRef = ref(); // 滚动容器实例
 const commentRefs = ref<any[]>([]); // 评论组件实例
 const comments = ref<Array<CommentItem>>([]); // 评论数据
 const newComments = ref<Array<CommentItem>>([]); // 新增评论数据
+const showNewComments = ref<boolean>(false); // 显示新增评论数据
 const commentContentInitEnd = ref(false);
 //#region 加载评论
 const loadDataIng = ref<boolean>(false);
@@ -372,31 +405,63 @@ onMounted(() => {
   pagingQueryComment();
 });
 
-// 删除数据
-const deleteData = (
-  commentIndex: number,
+//#region 删除数据
+
+const deleteData = async (
+  id: number,
   commentType: CommentType,
-  deleCount: number
+  delCount: number,
+  dataSource: CommentItem[] | CommentItem,
+  delIndex: number
 ) => {
-  const data = comments.value[commentIndex];
-  // emit("delete", data.id, commentType, () => {
-  //   data.replyCount! -= deleCount;
-  // });
+  let res;
+  if (commentType === CommentType.Comment) {
+    res = await del("Comment/DeleteById", { id });
+  } else if (commentType === CommentType.Reply) {
+    res = await del("Reply/DeleteById", { id });
+  }
+  if (res.code === 200) {
+    ElMessage.info("删除成功");
+    emit("addCommentCount", -delCount);
+    // 是评论则接受评论数组
+    if (commentType === CommentType.Comment) {
+      (dataSource as CommentItem[]).splice(delIndex, 1);
+      // 是回复则接受评论对象
+    } else if (commentType === CommentType.Reply) {
+      console.log("object :>> ", (dataSource as CommentItem).replyList);
+      (dataSource as CommentItem).replyList!.splice(delIndex, 1);
+      (dataSource as CommentItem).replyCount! -= 1;
+    }
+  } else {
+    ElMessage.error("删除失败");
+  }
 };
+//#endregion
 
 //#region 点击回复按钮
 
 const replyHandler = (
   data: CommentItem,
   template: any,
-  _isReplyToReply: boolean
+  _isReplyToReply: boolean,
+  replyData?: CommentItem
 ) => {
+  // 点击的是评论的回复
   isReplyToReply.value = _isReplyToReply;
+  // 赋值，评论Data引用
   commentHandlerData.value = data;
+  // 赋值，评论回复Data引用
+  commentHandlerReplyData.value = data;
+  // 只要点击就是回复
   isReply.value = true;
-  toUserName.value = commentHandlerData.value.userName;
+  // 赋值用户名
+  toUserName.value = _isReplyToReply
+    ? replyData?.userName!
+    : commentHandlerData.value.userName;
+  // 赋值评论组件Dom实例引用
   commentHandlerTemplate.value = template;
-  commentAddRef.value?.focusTextArea(); // 激活窗口，刷新窗口的状态
+  // 激活窗口，刷新窗口的状态
+  commentAddRef.value?.focusTextArea();
 };
 
 //#endregion
@@ -479,21 +544,25 @@ const isReply = ref<boolean>(false);
 const toUserName = ref<string>("");
 const isReplyToReply = ref<boolean>(false); // 是否为评论回复的回复
 const commentHandlerTemplate = ref<any>(0); // 当前评论Dom实例，用于评论后滑动容器到底部
-const commentHandlerData = ref<CommentItem>({} as CommentItem); // 储存对象的引用
+const commentHandlerData = ref<CommentItem>({} as CommentItem); // 储存评论对象的引用
+const commentHandlerReplyData = ref<CommentItem>({} as CommentItem); // 储存评论回复对象的引用
 const pushHandle = async (html: string) => {
   let data = await builderParams(html);
   pushHandleAction(data);
   data.sendIng = true;
   const res = await pushHandleHttp(data);
   const newObj = isReply.value
-    ? commentHandlerData.value.replyList![
+    ? // 回复的最后一条
+      commentHandlerData.value.replyList![
         commentHandlerData.value.replyList!.length - 1
       ]
-    : newComments.value[newComments.value.length - 1];
+    : // 新增评论的最后一条
+      newComments.value[newComments.value.length - 1];
   if (res.code == 200) {
     ElMessage.success("评论成功！");
     data.id = res.data;
     newObj.sendIng = false;
+    emit("addCommentCount", 1);
   } else {
     newObj.sendError = true;
     ElMessage.error("操作失败！");
@@ -529,29 +598,35 @@ const builderParams = async (html: string): Promise<CommentItem> => {
   };
 };
 
-const pushHandleAction = (data: CommentItem) => {
+const pushHandleAction = async (data: CommentItem) => {
   commentContainerRef.value.style.scrollBehavior = "smooth";
   if (isReply.value) {
     // 赋值 toUserName
     if (isReplyToReply.value) data.toUserName = toUserName.value;
-    // 赋值 replyList
-    if (!commentHandlerData.value.replyList) {
-      commentHandlerData.value.replyList = [];
-    }
-    commentHandlerData.value.replyList?.push(data);
-    // 打开回复列表
-    commentHandlerData.value.replyOpen = true;
     // 赋值 replyCount
     if (commentHandlerData.value.replyCount) {
       commentHandlerData.value.replyCount += 1;
     } else {
       commentHandlerData.value.replyCount = 1;
     }
+    // 赋值 replyList
+    if (!commentHandlerData.value.replyList) {
+      commentHandlerData.value.replyList = [];
+    }
+    // 打开回复列表
+    commentHandlerData.value.replyOpen = true;
+    await nextTick();
+    commentHandlerData.value.replyList?.push(data);
+    // 等待回复区打开后再执行滚动
+    await nextTick();
+    // 滚动容器到指定位置
     scrollContentCenter(
       commentContainerRef.value,
       commentHandlerTemplate.value
     );
   } else {
+    showNewComments.value = true;
+    await nextTick();
     // 赋值 newComments
     newComments.value.push(data);
     // 滚动容器到指定位置
@@ -581,6 +656,7 @@ const scrollContentCenter = (formElement: any, toElement: any) => {
   .AppCommentContent {
     height: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
     // 滚动条外观设置
     &::-webkit-scrollbar {
       width: 6px;

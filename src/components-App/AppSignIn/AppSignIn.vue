@@ -2,7 +2,11 @@
   <div class="AppSignIn">
     <div class="sign-in">
       <span class="now-time">{{ MonthDate }}</span>
-      <el-text class="text" tag="ins" @click="appStore.signInVisible = true"
+      <el-text
+        class="text"
+        tag="ins"
+        v-login
+        @click="appStore.signInVisible = true"
         >签到</el-text
       >
     </div>
@@ -22,18 +26,18 @@ import { useAppStore } from "@/stores/app/app";
 const userStore = useUserStore(); // 拿到管理用户信息的仓库
 const appStore = useAppStore();
 
-
 // 签到模块 right
 const date = new Date();
 const MonthDate = `${date.getMonth() + 1}-${date.getDate()}`;
 
-
 const SignInCount = ref<number>(0);
 
 const getCountOfSignInForMonth = async () => {
-  SignInCount.value = await get("User/GetCountOfSignInForMonth", {
-    userId: userStore?.userData?.id,
-  });
+  if (userStore?.userData) {
+    SignInCount.value = await get("User/GetCountOfSignInForMonth", {
+      userId: userStore?.userData?.id,
+    });
+  }
 };
 
 onMounted(async () => {

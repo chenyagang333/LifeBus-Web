@@ -1,43 +1,35 @@
-<!-- <template v-if="isVideo">
-  <div class="jinn-content-file">
-    <i class="bi bi-play-fill"></i>
-    <video :src="src" />
-  </div>
-</template>
-<template v-else>
-  <el-image class="jinn-content-file" :src="src" fit="cover" lazy> </el-image>
-</template> -->
 <template>
-  <div class="jinn-content-file">
     <template v-if="isVideo">
-      <i class="bi bi-play-fill"></i>
-      <video :src="src" />
+      <i class="bi bi-play-fill"  @click="$emit('click')"></i>
+      <video :src="src"/>
     </template>
     <template v-else>
-      <img v-lazy="src" />
+      <img :src="_src" @click="$emit('click')" @error="imgLoadError">
+      </img>
     </template>
-  </div>
 </template>
 
 <script setup lang="ts">
 import { FileType, getFileTypeByFileName } from "@/utils/FileUtils/FileType";
+import { ref } from "vue";
 const props = withDefaults(
   defineProps<{
     src: string;
   }>(),
   {}
 );
+
+defineEmits<{
+  (e:'click'):void
+}>()
+const _src = ref<string>(props.src)
+const imgLoadError = () => {
+  _src.value = new URL("@/assets/default/imageLoadError.png", import.meta.url).href
+}
 const isVideo = getFileTypeByFileName(props.src) === FileType.video; // 是视频
 </script>
 
 <style scoped lang="scss">
-.jinn-content-file {
-  position: relative;
-  overflow: hidden;
-  transform: translateZ(0);
-  :deep(.el-image__inner) {
-    width: auto;
-  }
   .bi {
     position: absolute;
     top: 50%;
@@ -54,33 +46,25 @@ const isVideo = getFileTypeByFileName(props.src) === FileType.video; // 是视�
       cursor: pointer;
     }
   }
-  video,
-  // img {
-    :deep(img) {
-    // img {
+video,
+  img {
     border-radius: var(--el-border-radius-base);
     border: 0.1px solid var(--el-border-color);
-    background-color: var(--el-fill-color-light);
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    max-width: 100%;
-    &:hover {
+
+  &:hover {
       /* 悬停时降低图片亮度，实现遮罩效果 */
       filter: brightness(90%);
     }
   }
   video {
-    position: absolute;
+    height: 100%;
     width: 100%;
     background-color: black;
   }
-  :deep(img) {
-    // img {
-    object-fit: cover;
-    cursor: -webkit-zoom-in;
-    cursor: zoom-in;
+    img {
+      object-fit: cover;
+      cursor: -webkit-zoom-in;
+      cursor: zoom-in;
+      background-color: var(--el-fill-color-light);
   }
-}
 </style>

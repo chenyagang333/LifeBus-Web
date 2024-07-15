@@ -29,7 +29,7 @@ import AppSidebarRight from "@/components-App/AppSidebar/AppSidebarRight.vue";
     width: 100%;
   }
   > .center {
-    margin: 0 10px;
+    margin-right: 10px;
     width: 760px;
   }
 

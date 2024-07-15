@@ -11,7 +11,8 @@ export const useAppStore = defineStore('App', () => {
     // 是否滚动到首页顶部背景图下端
     const headerUp = ref(true);
     // 登陆弹窗是否显示
-    const showLoginDialog = ref(false);
+    // const showLoginDialog = ref(false);
+    const { visible: showLoginDialog } = useEventListenerPopstate('showLoginDialog');
     // 签到弹窗是否显示
     const { visible: signInVisible } = useEventListenerPopstate('signInVisible');
     // 屏幕是否为移动端尺寸

@@ -40,7 +40,7 @@ export default function useEventListenerPopstate(_mark: string = '', _visible: b
         window.removeEventListener('popstate', handlePopstate);
         // 删除返回记录标记
         appStore.historyMarks = appStore.historyMarks.filter(m => m !== _mark)
-      }, 100);
+      }, 50);
       // 如果不是通过浏览器返回则使用router 返回
       if (notPopstateBack.value) {
         router.back();

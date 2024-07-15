@@ -6,9 +6,10 @@
     width="366"
     :show-close="false"
     :fullscreen="appStore.isMobile"
+    destroy-on-close
   >
     <JinnSignIn
-      :title="`@${userStore?.userData?.userName}，签到成功!`"
+      :title="`@${userStore?.userData?.userName}，今天已签到成功!`"
       :img1="img1"
       :img2="img2"
       text="珍惜当下，多一点热爱！"

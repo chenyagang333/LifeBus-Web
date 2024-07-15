@@ -7,24 +7,27 @@
     >
       {{ content }}
     </div>
-    <a-trigger v-if="showMoreContent" :popup-translate="[-80, 5]">
-      <div class="more">更多</div>
-      <template #content>
-        <div
-          style="
-            width: 230px;
-            background-color: var(--jinn-bg3);
-            color: var(--jinn-text-color1);
-            padding: 10px;
-            font-size: 13px;
-            border-radius: var(--el-border-radius-base);
-            border: 1px solid var(--jinn-color3);
-          "
-        >
-          {{ content }}
-        </div>
+    <el-popover
+      v-if="showMoreContent"
+      placement="bottom-end"
+      :width="230"
+      trigger="hover"
+    >
+      <template #reference>
+        <el-text class="mx-1 more" type="primary">更多</el-text>
       </template>
-    </a-trigger>
+      <div
+        style="
+          color: var(--jinn-text-color1);
+          font-size: 13px;
+          /* background-color: var(--jinn-bg3);
+          border-radius: var(--el-border-radius-base);
+          border: 1px solid var(--jinn-color3); */
+        "
+      >
+        {{ content }}
+      </div>
+    </el-popover>
   </div>
 </template>
 
@@ -59,7 +62,7 @@ const showMoreContent = computed<boolean>(() => {
   font-size: 12px;
   > .content {
     color: var(--jinn-text-color2);
-    width: calc(100% - 26px);
+    width: calc(100% - 36px);
   }
   .ellipsis {
     white-space: nowrap;
@@ -67,8 +70,6 @@ const showMoreContent = computed<boolean>(() => {
     text-overflow: ellipsis;
   }
   .more {
-    font-size: 13px;
-    color: var(--jinn-text-color1);
     cursor: pointer;
   }
 }

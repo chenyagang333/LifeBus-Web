@@ -59,7 +59,7 @@ const reloadData = async () => {
 .global-search {
   // min-width: var(--jinn-min-width);
   // margin: 0 auto;
-  margin-left: 10px;
+  // margin-left: 10px;
   margin-top: 10px;
   width: 1130px;
   @include mobile {

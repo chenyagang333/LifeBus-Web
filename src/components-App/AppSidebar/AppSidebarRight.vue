@@ -2,7 +2,7 @@
   <div class="AppSidebarRight">
     <div class="sticky">
       <div class="user-relevant radius-overflow">
-        <AppSignIn v-if="login"></AppSignIn>
+        <AppSignIn></AppSignIn>
       </div>
     </div>
   </div>
@@ -10,9 +10,6 @@
 
 <script setup lang="ts">
 import AppSignIn from "@/components-App/AppSignIn/AppSignIn.vue";
-import useLoginState from "@/hooks/useLoginState";
-
-const login = useLoginState();
 </script>
 
 <style scoped lang="scss">

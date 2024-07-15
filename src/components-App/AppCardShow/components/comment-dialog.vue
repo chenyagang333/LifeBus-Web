@@ -6,7 +6,7 @@
     width="90vw"
     :show-close="false"
     destroy-on-close
-
+    append-to-body
   >
     <div class="detail-core">
       <div
@@ -33,7 +33,7 @@
         /></el-icon>
       </el-button>
       <div class="detail-core-comment">
-        <slot name="commentArea"></slot>
+        <slot name="tabs"></slot>
       </div>
     </div>
   </el-dialog>

@@ -9,7 +9,7 @@
     <div class="more-option">...</div>
     <template #dropdown v-if="show">
       <el-dropdown-menu>
-        <el-dropdown-item v-if="showDelete" @click="$emit('delete')"
+        <el-dropdown-item v-if="userData && userData.id == userId" @click="$emit('delete')"
           >删除</el-dropdown-item
         >
         <el-dropdown-item v-else>举报</el-dropdown-item>
@@ -19,14 +19,20 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from "@/stores/user/user";
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
 defineProps<{
-  showDelete: boolean;
+  userId: number;
 }>();
 defineEmits<{
   (e: "delete"): void;
 }>();
+
+const UserStore = useUserStore(); // 拿到管理用户信息的仓库
+const { userData } = storeToRefs(UserStore); // 响应式的结构变量
+
 const show = ref<boolean>(false);
 </script>
 

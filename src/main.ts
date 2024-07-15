@@ -30,6 +30,8 @@ import pinia from '@/stores' // pinia仓库
 
 import lazyPlugin from 'vue3-lazy'
 
+import imageLoadError from '@/assets/default/imageLoadError.png';
+import { addDirectives } from "./directives";
 // Import icon libraries
 // import '@quasar/extras/material-icons/material-icons.css'
 
@@ -44,7 +46,6 @@ const app = createApp(App);
 /**定义变量$website，并赋值为devcursor**/
 app.config.globalProperties.$FileIP = import.meta.env.VITE_APP_FILE_IP
 
-
 // 安装自定义插件
 app.use(pinia); // 仓库 // 在路由前
 app.use(ElementPlus); // ElementPlus UI
@@ -57,9 +58,10 @@ app.use(router); // 路由
 //     plugins: {}, // import Quasar plugins and add here
 // })
 
-import imageLoadError from '@/assets/default/imageLoadError.png';
+
+addDirectives(app);
 lazyPlugin.install(app, {
-    // loading: 'loading.gif', // png/git/jpg/等格式都可以和你存放的图片格式一样就行
-    error: imageLoadError
-  })
+  // loading: 'loading.gif', // png/git/jpg/等格式都可以和你存放的图片格式一样就行
+  error: imageLoadError
+})
 app.mount("#app");
