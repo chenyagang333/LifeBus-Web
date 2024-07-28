@@ -12,19 +12,12 @@
       placement="bottom-end"
       :width="230"
       trigger="hover"
+      :teleported="false"
     >
       <template #reference>
         <el-text class="mx-1 more" type="primary">更多</el-text>
       </template>
-      <div
-        style="
-          color: var(--jinn-text-color1);
-          font-size: 13px;
-          /* background-color: var(--jinn-bg3);
-          border-radius: var(--el-border-radius-base);
-          border: 1px solid var(--jinn-color3); */
-        "
-      >
+      <div style="color: var(--jinn-text-color1); font-size: 13px">
         {{ content }}
       </div>
     </el-popover>
@@ -53,6 +46,9 @@ const showMoreContent = computed<boolean>(() => {
 </script>
 
 <style scoped lang="scss">
+:deep(.el-popper__arrow) {
+  display: none;
+}
 .JinnDescription {
   font-family: PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei,
     sans-serif;

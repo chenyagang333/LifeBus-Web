@@ -87,6 +87,7 @@ const _urls = props.files?.map((x) => FileIP + x.firstURL);
 
 <style scoped lang="scss">
 .user-card {
+
   @include mobile {
     display: none;
   }

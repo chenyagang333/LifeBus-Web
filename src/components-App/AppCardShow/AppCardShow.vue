@@ -99,7 +99,6 @@
 import { getCurrentInstance, nextTick, onMounted, ref, watch } from "vue";
 import { MyFileInfo, ShowType } from "@/types/Layout1/youshow/youshow";
 import AppCard from "@/components-App/AppCard/AppCard.vue";
-import JinnImage from "@/components/jinn-components/jinn-image/JinnImage.vue";
 import { useRoute, useRouter } from "vue-router";
 import useEventListenerPopstate from "@/hooks/useEventListenerPopstate";
 import { useAppStore } from "@/stores/app/app";

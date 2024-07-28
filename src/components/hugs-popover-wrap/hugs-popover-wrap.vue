@@ -6,20 +6,19 @@
     @mouseleave="handleDisplay(false)"
   >
     <a class="default-entry">
-      <div class="animation">
-        <slot name="default"></slot>
+      <slot name="default" v-if="$slots.default"></slot>
+      <div class="animation" v-if="$slots.animation">
+        <slot name="animation"></slot>
       </div>
-      <template v-if="$slots.second">
-        <div class="second">
-          <slot name="second"></slot>
-        </div>
-      </template>
+      <div class="second" v-if="$slots.second">
+        <slot name="second"></slot>
+      </div>
     </a>
     <Transition name="hugs-popover">
       <div
         class="popover"
-        v-if="!keepDom && display"
-        v-show="display"
+        v-if="destroyOnClose ? display : true"
+        v-show="destroyOnClose || display"
         :style="popoverStyle"
       >
         <div
@@ -37,14 +36,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const props = defineProps<{
-  openCard?: boolean;
-  position?: string; // br,bc
-  distance?: string; // padding-top
-  trigger?: string; //
-  animation?: string; //
-  keepDom?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    openCard?: boolean;
+    position?: string; // br,bc
+    distance?: string; // padding-top
+    trigger?: string; //
+    animation?: string; //
+    destroyOnClose?: boolean;
+  }>(),
+  {
+    destroyOnClose: false,
+  }
+);
 
 const display = ref(false);
 const handleDisplay = (_display: boolean) => {
@@ -74,8 +78,7 @@ popoverWrapStyle.paddingTop = props.distance ? props.distance + "px" : ""; // å†
 </script>
 
 <style lang="scss" scoped>
-// ,
-.hugs-popover-leave-active{
+.hugs-popover-leave-active {
   transition: all 0.1s ease-in-out;
 }
 .hugs-popover-enter-active {
@@ -101,6 +104,7 @@ popoverWrapStyle.paddingTop = props.distance ? props.distance + "px" : ""; // å†
     .animation {
       align-items: center;
       display: flex;
+      height: 26px;
     }
     .second {
       height: 15px;

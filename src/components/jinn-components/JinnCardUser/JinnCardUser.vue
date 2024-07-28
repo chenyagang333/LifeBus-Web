@@ -38,7 +38,6 @@ const emit = defineEmits<{
   (e: "handler"): void;
 }>();
 
-
 onMounted(() => {
   // configShowMoreContent();
 });
@@ -56,6 +55,7 @@ onMounted(() => {
   > .left {
     .el-avatar {
       cursor: pointer;
+      border: 1.5px solid var(--el-border-color);
     }
   }
   > .right {

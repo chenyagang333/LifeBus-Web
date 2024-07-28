@@ -9,9 +9,11 @@
       class="login"
       animation="dance"
     >
-      <span class="login-text right-entry" @click="goLogin()">{{
-        $t(lang + "loginBtn")
-      }}</span>
+      <template #animation>
+        <span class="login-text right-entry" @click="goLogin()">{{
+          $t(lang + "loginBtn")
+        }}</span>
+      </template>
       <template #popover>
         <div class="no-user card">
           <div class="lable">
@@ -45,12 +47,15 @@
         </div>
       </template>
     </hugs-popover-wrap>
-    <!-- 用户登录 信息 -->
     <!-- 已登录 -->
     <UserData v-else></UserData>
+    <!-- 用户私信 -->
+    <UserChat></UserChat>
     <!-- 用户消息 -->
     <hugs-popover-wrap distance="15" class="message" animation="dance">
-      <i class="bi bi-envelope right-entry"></i>
+      <template #animation>
+        <i class="bi bi-envelope right-entry"></i>
+      </template>
       <template #second> <div style="width: 26px">消息</div></template>
       <template #popover>
         <!-- 已登录 -->
@@ -82,11 +87,13 @@
     </hugs-popover-wrap>
     <!-- 语言切换 -->
     <hugs-popover-wrap distance="15" class="language" animation="dance">
-      <div style="height: 28.5px; line-height: 28.5px; width: 32px">
-        <i class="bi bi-translate"></i>
-        <i class="bi bi-chevron-down"></i>
-        <!-- <img class=bi-chevron-down src="@/assets/svgs/chevron-down.svg" /> -->
-      </div>
+      <template #animation>
+        <div style="width: 32px">
+          <i class="bi bi-translate"></i>
+          <i class="bi bi-chevron-down"></i>
+          <!-- <img class=bi-chevron-down src="@/assets/svgs/chevron-down.svg" /> -->
+        </div>
+      </template>
       <template #second><div style="width: 26px">语言</div></template>
       <template #popover>
         <div class="card">
@@ -112,6 +119,7 @@ import { useAppStore } from "@/stores/app/app";
 import { ElMessage } from "element-plus";
 import UserData from "./components/UserData.vue";
 import AppThemeSwitching from "@/components-App/AppThemeSwitching/index.vue";
+import UserChat from "./components/UserChat/UserChat.vue";
 
 defineProps<{
   headerUp: boolean;

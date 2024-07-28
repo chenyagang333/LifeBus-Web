@@ -1,22 +1,24 @@
 <template>
-  <div class="JinnButton" :class="jinnClass">
+  <div class="JinnButton" :class="[type,_active]">
     <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed } from 'vue';
+
 
 // type: default\lucency
-const { type } = defineProps<{
+const props = withDefaults(defineProps<{
   type?: string;
-}>();
+  active?: boolean;
+}>(),{
+  type:"default",
+  active:false
+});
 
-const jinnClass = ref<string>("default");
+const _active = computed(() => props.active ? `${props.type}-active` : '')
 
-if (type) {
-  jinnClass.value = type;
-}
 </script>
 
 <style scoped lang="scss">
@@ -31,7 +33,6 @@ if (type) {
   display: flex;
   align-items: center;
   padding: 0 10px;
-
 }
 .default {
   background-color: var(--jinn-bg3);
@@ -39,10 +40,16 @@ if (type) {
     background-color: var(--jinn-bg5);
   }
 }
+.default-active {
+  background-color: var(--jinn-bg5);
+}
 
 .lucency {
   &:hover {
     background-color: var(--jinn-bg5);
   }
+}
+.lucency-active {
+  background-color: var(--jinn-bg5);
 }
 </style>

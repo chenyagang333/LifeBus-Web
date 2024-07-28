@@ -551,6 +551,7 @@ const pushHandle = async (html: string) => {
   pushHandleAction(data);
   data.sendIng = true;
   const res = await pushHandleHttp(data);
+  // 反映发送消息状态
   const newObj = isReply.value
     ? // 回复的最后一条
       commentHandlerData.value.replyList![
@@ -565,7 +566,7 @@ const pushHandle = async (html: string) => {
     emit("addCommentCount", 1);
   } else {
     newObj.sendError = true;
-    ElMessage.error("操作失败！");
+    ElMessage.error("评论失败！");
   }
 };
 

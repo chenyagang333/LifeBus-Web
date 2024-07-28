@@ -46,12 +46,11 @@ defineEmits<{
     margin-right: 10px;
     position: relative;
 
-    .el-avatar {
-      background-image: url("@/assets/default/defaultAvatar.png");
-      background-size: cover;
-    }
     .user-card {
       background-color: var(--jinn-bg4);
+    }
+    .el-avatar {
+      border: 1.5px solid var(--el-border-color);
     }
   }
 

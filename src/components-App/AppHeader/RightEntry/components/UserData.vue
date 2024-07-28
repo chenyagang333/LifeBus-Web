@@ -1,5 +1,5 @@
 <template>
-  <hugs-popover-wrap distance="15" class="user-data">
+  <hugsPopoverWrap distance="15" class="user-data">
     <el-avatar
       :size="40"
       :src="FileIP + userData?.userAvatar"
@@ -28,7 +28,7 @@
         <UserSelect></UserSelect>
       </div>
     </template>
-  </hugs-popover-wrap>
+  </hugsPopoverWrap>
 </template>
 
 <script setup lang="ts">
@@ -55,8 +55,9 @@ const router = useRouter();
 .card-user {
   width: 256px;
   padding: 15px;
-
+  border-radius: var(--el-border-radius-base);
   background-color: var(--jinn-color1);
+  border: 1px solid var(--el-border-color);
   .header {
     display: flex;
     align-items: center;

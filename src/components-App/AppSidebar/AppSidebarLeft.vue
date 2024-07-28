@@ -6,9 +6,7 @@
         v-for="(i, index) in navData"
         :key="index"
         @click="navClickHandle(i)"
-        :style="{
-          backgroundColor: navIndex === index ? 'var(--jinn-bg5)' : '',
-        }"
+        :active="navIndex === index"
       >
         <i
           class="bi"

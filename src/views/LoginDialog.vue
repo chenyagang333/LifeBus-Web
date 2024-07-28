@@ -72,7 +72,7 @@
                   <template #append
                     ><CountDown
                       style="margin: 0 -20px; padding: 0 20px"
-                      :time="2"
+                      :time="60"
                       @send-code="(func:any) => sendCodeByMail(func)"
                     ></CountDown
                   ></template> </el-input
@@ -352,7 +352,7 @@ const userRegister = () => {};
           margin-bottom: 15px;
         }
         .text {
-          color: black;
+          color: var(--jinn-text-color1);
           font-size: 15px;
         }
         .get-code {

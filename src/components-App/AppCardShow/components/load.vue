@@ -8,13 +8,7 @@
   <!-- 加载动画 -->
   <template v-else>
     <el-card style="margin-bottom: 10px" shadow="never" v-for="i in 3" :key="i">
-      <el-skeleton
-        style="
-          --el-skeleton-circle-size: 55px;
-          background-color: var(--jinn-color1);
-        "
-        animated
-      >
+      <el-skeleton style="--el-skeleton-circle-size: 55px" animated>
         <template #template>
           <div style="display: flex; justify-content: space-between">
             <el-skeleton-item variant="circle" />

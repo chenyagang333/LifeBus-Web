@@ -1,6 +1,5 @@
 <template>
-  <div class="jinn-production-card"
-  >
+  <div class="jinn-production-card">
     <!-- 头部 -->
     <CardHeader
       :userId="userId"
@@ -11,6 +10,9 @@
       :avatarCardPosition="avatarCardPosition"
       @clickUser="$emit('clickUser')"
     >
+      <template #avatarCard>
+        <slot name="avatarCard"></slot>
+      </template>
     </CardHeader>
     <!-- 内容 -->
     <CardMain
