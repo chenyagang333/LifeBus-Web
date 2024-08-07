@@ -1,10 +1,15 @@
 <template>
   <div>
-    <TransitionGroup name="list" tag="div" class="jinn-list" :class="columnReverse ? 'columnReverse' : ''">
+    <TransitionGroup
+      name="list"
+      tag="div"
+      class="jinn-list"
+      :class="columnReverse ? 'columnReverse' : ''"
+    >
       <div
         class="jinn-list-item"
         v-for="(item, index) in dataSource"
-        :key="index"
+        :key="item.id || index"
         ref="itemRefs"
       >
         <slot
@@ -46,7 +51,6 @@ const itemRefs = ref([]);
 .list-leave-active {
   position: absolute;
 }
-
 
 .jinn-list {
   display: flex;

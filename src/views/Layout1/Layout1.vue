@@ -56,7 +56,6 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import AppHeader from "@/components-App/AppHeader/AppHeader.vue";
@@ -222,7 +221,7 @@ onBeforeUnmount(() => {
     .AppRouterViewContent {
       display: flex;
       justify-content: center;
-      gap:10px;
+      gap: 10px;
       .AppSidebarLeft1 {
         margin-top: 10px;
       }
@@ -255,6 +254,7 @@ onBeforeUnmount(() => {
   }
   .bottom {
     height: 150px;
+    margin-top: 32px;
     background-color: var(--jinn-bg6);
   }
 }

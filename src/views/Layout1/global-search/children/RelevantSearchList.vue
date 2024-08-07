@@ -6,7 +6,7 @@
         <JinnButton
           type="lucency"
           v-for="(i, index) in data"
-          :key="index"
+          :key="i.relevanSearchWord"
           @click="goSearch(i.relevanSearchWord)"
         >
           <i class="bi bi-search"></i>
@@ -56,7 +56,7 @@ onMounted(() => {
   position: sticky;
   width: 260px;
   top: 0;
-  @include mobile{
+  @include mobile {
     display: none;
   }
   .options {

@@ -2,7 +2,6 @@
 :root {
   /* 基本颜色 */
   --jinn-color1: white;
-  /* --jinn-text-color1: #18191c; */
   --jinn-color3: pink;
   --jinn-color4: rgb(255, 206, 213);
   --jinn-color5: rgb(141, 141, 141);
@@ -18,6 +17,7 @@
   --jinn-bg5: rgb(237, 237, 237);
   --jinn-bg6: rgb(249 249 250);
   --jinn-bg7: black;
+  --jinn-bg8: white;
   /* 边框线颜色 */
   /* --el-border-color: #e4e7ed; */
 }

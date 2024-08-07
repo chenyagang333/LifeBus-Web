@@ -10,7 +10,9 @@
           placeholder="搜你想搜"
         />
         <div class="search-icon" @click="goSearch">
-          <el-icon size="21" color="var(--jinn-text-color1)"><Search /></el-icon>
+          <el-icon size="21" color="var(--jinn-text-color1)"
+            ><Search
+          /></el-icon>
         </div>
       </div>
       <div class="search-b-box" v-show="searchBottomBox">
@@ -152,7 +154,8 @@ onMounted(() => {
     border-radius: var(--el-border-radius-base);
     transition: all 0.2s ease-in-out;
     border: 1px solid var(--el-border-color);
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: var(--jinn-bg4);
       .search-row {
         .search-input {
@@ -188,7 +191,8 @@ onMounted(() => {
         transition: all 0.2s ease-in-out;
         border-radius: var(--el-border-radius-base);
         margin-right: 5px;
-        &:hover {
+        &:hover,
+        &:focus-within {
           background-color: var(--jinn-bg2);
         }
       }

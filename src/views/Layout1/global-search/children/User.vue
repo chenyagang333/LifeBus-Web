@@ -1,19 +1,17 @@
 <template>
   <div class="SearchWeUser">
-    <el-card shadow="hover" v-for="i in SearchUserData">
+    <el-card shadow="hover" v-for="i in SearchUserData" :key="i.id">
       <AppCardUser ellipsis :userId="i.id" :data="i"></AppCardUser>
     </el-card>
     <template v-if="!loadEnd">
       <el-card id="SearchWeUserLoadDoc" shadow="hover">
         <AppCardUserTemplate></AppCardUserTemplate>
       </el-card>
-      <el-card shadow="hover" v-for="i in 3">
+      <el-card shadow="hover" v-for="i in 9">
         <AppCardUserTemplate></AppCardUserTemplate>
       </el-card>
     </template>
-    <AppEmpty
-      v-if="loadEnd && SearchUserData.length == 0"
-    />
+    <AppEmpty v-if="loadEnd && SearchUserData.length == 0" />
   </div>
 </template>
 

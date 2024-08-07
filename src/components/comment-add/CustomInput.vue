@@ -2,7 +2,7 @@
   <div
     class="comment-input"
     :placeholder="placeholder"
-    :style="{ minHeight: minHeight }"
+    :style="{ minHeight: minHeight, fontSize: fontSize }"
     contenteditable
     ref="commentBoxRef"
     @blur="blurCommentBox"
@@ -15,16 +15,28 @@ import { replaceImgString } from "@/utils/FileUtils/EmotionFile.ts";
 import { ref } from "vue";
 import { onMounted } from "vue";
 
-defineProps<{
+const props = defineProps<{
   placeholder: string;
   minHeight?: string;
+  fontSize?: string;
+  observeInput?: boolean;
 }>();
 
 const commentBoxRef = ref(null) as any; // 定义 ref.
 const emit = defineEmits<{
   (e: "custom-blur"): void;
   (e: "custom-focus"): void;
+  (e: "observeInput", entry: any, vc: any): void;
 }>();
+
+onMounted(() => {
+  if (props.observeInput) {
+    const myObserver = new ResizeObserver((entries) => {
+      emit("observeInput", entries[0], commentBoxRef.value);
+    });
+    myObserver.observe(commentBoxRef.value);
+  }
+});
 
 //#region 事件处理
 
@@ -114,17 +126,16 @@ onMounted(() => {});
 <style lang="scss" scoped>
 .comment-input {
   padding: 7px 10px;
-  font-size: inherit;
   overflow: hidden;
-  // resize: both;
-  // height: 100%;
   cursor: text;
-
   border: none;
   font-size: 15px;
   transition: border 0.3s;
   color: var(--jinn-text-color1);
   font-weight: 500;
+  word-wrap: break-word;
+  word-break: break-all;
+
   &:empty::before {
     content: attr(placeholder);
     color: #a3a3a3;

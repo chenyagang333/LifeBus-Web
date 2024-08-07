@@ -2,12 +2,12 @@
   <div class="card-main">
     <JinnContent v-if="content" :content="content"></JinnContent>
     <template v-if="urls && urls.length > 0">
-      <LazyLoader width="100%" height="200px">
-        <JinnContentFiles
-          :urls="urls"
-          @clickFile="(index:number) => $emit('clickFile', index)"
-        ></JinnContentFiles>
-      </LazyLoader>
+      <!-- <LazyLoader width="100%" height="200px"> -->
+      <JinnContentFiles
+        :urls="urls"
+        @clickFile="(index:number) => $emit('clickFile', index)"
+      ></JinnContentFiles>
+      <!-- </LazyLoader> -->
     </template>
   </div>
 </template>
@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import JinnContent from "@/components/jinn-components/jinn-content/jinn-content.vue";
 import JinnContentFiles from "@/components/jinn-components/jinn-content/jinn-content-files/jinn-content-files.vue";
-import LazyLoader from "@/components/jinn-components/jinn-lazy-loader/LazyLoader.vue";
+// import LazyLoader from "@/components/jinn-components/jinn-lazy-loader/LazyLoader.vue";
 import { JinnProductionCardMainType } from "./card-main";
 
 defineProps<JinnProductionCardMainType>();

@@ -11,7 +11,7 @@
       <div class="publish-show" :class="newAdd ? 'newAddShow' : ''">
         <AppCard
           v-for="(i, index) in shows"
-          :key="index"
+          :key="i.id || index"
           :files="i.files"
           :id="i.id"
           :userAvatarURL="i.userAvatarURL"

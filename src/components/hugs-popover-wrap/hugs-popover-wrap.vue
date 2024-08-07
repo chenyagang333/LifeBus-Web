@@ -51,6 +51,11 @@ const props = withDefaults(
 );
 
 const display = ref(false);
+// 关闭卡片
+const close = () => {
+  display.value = false;
+};
+defineExpose({ close });
 const handleDisplay = (_display: boolean) => {
   // const handleDisplay = (_display: boolean, showType?: string) => {
   // if (props.showType !== showType) return

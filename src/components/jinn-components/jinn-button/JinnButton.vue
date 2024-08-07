@@ -1,23 +1,34 @@
 <template>
-  <div class="JinnButton" :class="[type,_active]">
+  <div
+    class="JinnButton"
+    :class="[type, _active]"
+    :style="{ 
+      '--jinn-bg3': backgroundColor ?? '',
+      '--jinn-bg5': hoverBackgroundColor ?? '',
+     }"
+  >
     <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
+import { computed } from "vue";
 
 // type: default\lucency
-const props = withDefaults(defineProps<{
-  type?: string;
-  active?: boolean;
-}>(),{
-  type:"default",
-  active:false
-});
+const props = withDefaults(
+  defineProps<{
+    type?: string;
+    active?: boolean;
+    backgroundColor?: string;
+    hoverBackgroundColor?: string;
+  }>(),
+  {
+    type: "default",
+    active: false,
+  }
+);
 
-const _active = computed(() => props.active ? `${props.type}-active` : '')
+const _active = computed(() => (props.active ? `${props.type}-active` : ""));
 
 </script>
 
@@ -29,10 +40,10 @@ const _active = computed(() => props.active ? `${props.type}-active` : '')
   color: var(--jinn-text-color1);
   border-radius: var(--el-border-radius-base);
   font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
-  transition: all 0.1s ease-in-out;
   display: flex;
   align-items: center;
   padding: 0 10px;
+  transition: background-color 0.15s ease-in-out;
 }
 .default {
   background-color: var(--jinn-bg3);
