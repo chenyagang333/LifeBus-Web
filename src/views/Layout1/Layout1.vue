@@ -5,14 +5,16 @@
       <HeaderBc id="LifeMomentAppHeaderBc" :showTopImg="showTopImg"> </HeaderBc>
       <div class="AppRouterViewContent">
         <AppSidebarLeft
-          style="width: 140px"
+          style="width: 150px"
           :class="showTopImg ? 'AppSidebarLeft1' : 'AppSidebarLeft2'"
         ></AppSidebarLeft>
-        <RouterView v-slot="{ Component }">
-          <component :is="Component" />
-          <!-- <transition name="fade">
-            </transition> -->
-        </RouterView>
+        <router-view v-slot="{ Component }">
+          <!-- <transition name="fade"> -->
+            <keep-alive :include="keepActiveComponents" :max="9">
+              <component :is="Component" />
+            </keep-alive>
+          <!-- </transition> -->
+        </router-view>
       </div>
     </div>
     <div class="footer"></div>
@@ -57,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import AppHeader from "@/components-App/AppHeader/AppHeader.vue";
 import { useAppStore } from "@/stores/app/app";
 import { storeToRefs } from "pinia";
@@ -72,7 +74,9 @@ const appStore = useAppStore(); //
 const { headerUp } = storeToRefs(store);
 
 const route = useRoute();
-const router = useRouter();
+
+// 缓存路由组件
+const keepActiveComponents = ["register", "youshow", "User", "UserSelf"];
 
 //#region 页面顶部图片展示
 
@@ -169,18 +173,18 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 .fade-enter-active {
   // 设置子路由过渡动画
-  // transition: all 0.3s ease-out;
+  transition: all 0s ease-out;
+}
+.fade-leave-active {
+  // 设置子路由过渡动画
+  transition: all 0s;
 }
 
-.fade-leave-to {
+.fade-enter-from,
+.fade-leave-from {
   // 设置子路由过渡动画
-  // opacity: 1;
-  // transform: translateX(0);
-}
-.fade-enter-from {
-  // 设置子路由过渡动画
-  // opacity: 0;
-  // transform: translateX(60px);
+  opacity: 0;
+  transform: translateX(30px);
 }
 
 .layout1 {

@@ -1,8 +1,9 @@
 <template>
   <div class="AppSidebarRight">
     <div class="sticky">
-      <div class="user-relevant radius-overflow">
+      <div class="AppSidebarRightInner radius-overflow">
         <AppSignIn></AppSignIn>
+        
       </div>
     </div>
   </div>
@@ -22,11 +23,13 @@ import AppSignIn from "@/components-App/AppSignIn/AppSignIn.vue";
   > div {
     border-radius: 4px;
     position: sticky;
-    top: 75px;
+    top: -10px;
   }
-  .user-relevant {
-    height: 600px;
+  .AppSidebarRightInner {
+    min-height: calc(100vh - 200px);
     border: 1px solid var(--el-border-color);
+    position: relative;
+
   }
 }
 </style>

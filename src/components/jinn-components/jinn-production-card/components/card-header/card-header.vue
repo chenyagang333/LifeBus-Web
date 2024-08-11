@@ -1,7 +1,7 @@
 <template>
   <div class="card-header">
     <div class="headerImg">
-      <hugs-popover-wrap distance="5" :position="avatarCardPosition ?? 'bc'">
+      <hugs-popover-wrap distance="5" :position="avatarCardPosition ?? 'bc'" destroyOnClose>
         <el-avatar
           :size="50"
           :src="userAvatar"
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import hugsPopoverWrap from "@/components/hugs-popover-wrap/hugs-popover-wrap.vue";
+import hugsPopoverWrap from "@/components/hugs-popover-wrap/HugsPopoverWrap.vue";
 import { JinnProductionCardHeaderType } from "./card-header";
 const props = defineProps<JinnProductionCardHeaderType>();
 

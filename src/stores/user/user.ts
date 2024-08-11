@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { getCurrentInstance, ref } from 'vue';
+import { ref } from 'vue';
 import { GetUserData } from "@/api/Layout1";
-import { getToken, removeToken } from '@/utils/token';
+import { removeToken } from '@/utils/token';
 import { ElMessage } from 'element-plus';
 
 export interface UserData {
@@ -9,6 +9,7 @@ export interface UserData {
     id: number,
     userName: string,
     userAvatar: string,
+    userAvatarRelativeUrl: string,
     userAccount: number,
     attentionCount: number,
     fansCount: number,
@@ -18,11 +19,10 @@ export interface UserData {
     contentCount: number,
     description: string,
 }
-const FileIP = import.meta.env.VITE_APP_FILE_IP
 
 export const useUserStore = defineStore('user', () => {
     const userData = ref<UserData | null>()
-    
+
 
     async function getUserData() {
         try {

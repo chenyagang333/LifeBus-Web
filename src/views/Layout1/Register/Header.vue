@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import chat from "@/assets/chat.svg";
 import SignBox from "@/components/SignBox.vue";
-import hugsPopoverWrap from "@/components/hugs-popover-wrap/hugs-popover-wrap.vue";
+import hugsPopoverWrap from "@/components/hugs-popover-wrap/HugsPopoverWrap.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

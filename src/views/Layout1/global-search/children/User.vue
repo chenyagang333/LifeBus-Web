@@ -7,7 +7,7 @@
       <el-card id="SearchWeUserLoadDoc" shadow="hover">
         <AppCardUserTemplate></AppCardUserTemplate>
       </el-card>
-      <el-card shadow="hover" v-for="i in 9">
+      <el-card shadow="hover" v-for="i in 5">
         <AppCardUserTemplate></AppCardUserTemplate>
       </el-card>
     </template>

@@ -73,6 +73,7 @@ onMounted(() => {
   border-radius: var(--el-border-radius-base);
   position: relative;
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
   &::after {
     position: absolute;
     top: 0;

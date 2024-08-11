@@ -2,9 +2,10 @@
   <div
     class="hugs-popover-wrap"
     :class="animationClass"
-    @mouseenter="handleDisplay(true)"
-    @mouseleave="handleDisplay(false)"
+    @mouseenter="hoverDisplayHandler(true)"
+    @mouseleave="hoverDisplayHandler(false)"
   >
+    <!-- v-click-outside="clickDisplayHandler(false)" -->
     <a class="default-entry">
       <slot name="default" v-if="$slots.default"></slot>
       <div class="animation" v-if="$slots.animation">
@@ -34,7 +35,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { nextTick } from "vue";
+import { computed, ref } from "vue";
+// import { ClickOutside as vClickOutside } from "element-plus";
 
 const props = withDefaults(
   defineProps<{
@@ -42,37 +45,52 @@ const props = withDefaults(
     position?: string; // br,bc
     distance?: string; // padding-top
     trigger?: string; //
+    closeTrigger?: string; //
     animation?: string; //
     destroyOnClose?: boolean;
   }>(),
   {
+    trigger: "hover",
+    closeTrigger: "hover",
     destroyOnClose: false,
   }
 );
 
-const display = ref(false);
+const emit = defineEmits<{
+  (e: "before-enter"): void;
+}>();
+
+// const display = ref(false);
+const display = defineModel<boolean>({ default: false });
 // 关闭卡片
 const close = () => {
   display.value = false;
 };
 defineExpose({ close });
-const handleDisplay = (_display: boolean) => {
-  // const handleDisplay = (_display: boolean, showType?: string) => {
-  // if (props.showType !== showType) return
-  //   if (_display) {
+const hoverDisplayHandler = (_display: boolean) => {
+  if (_display) {
+    emit("before-enter");
+  } else {
+    if (props.closeTrigger !== "hover") {
+      return;
+    }
+  }
   display.value = _display;
-  //   }
 };
+// const clickDisplayHandler = (_display: boolean) => {
+//   display.value = _display;
+// };
 // 出现位置
-const popoverWrapClass = ref(""); // 内层popover
-popoverWrapClass.value = props.position ?? "bc"; // 内层popover
+const popoverWrapClass = computed(() => props.position ?? "bc"); // 内层popover
 const popoverStyleSelect: any = {
   t: { bottom: "100%" },
   r: { left: "100%" },
   b: { top: "100%" },
   l: { right: "100%" },
 };
-const popoverStyle = popoverStyleSelect[popoverWrapClass.value[0]]; // 外层popover
+const popoverStyle = computed(
+  () => popoverStyleSelect[popoverWrapClass.value[0]]
+); // 外层popover
 // 动画
 const animationClass = ref("");
 animationClass.value = props.animation ?? "";
@@ -84,7 +102,7 @@ popoverWrapStyle.paddingTop = props.distance ? props.distance + "px" : ""; // �
 
 <style lang="scss" scoped>
 .hugs-popover-leave-active {
-  transition: all 0.1s ease-in-out;
+  transition: all 0.15s ease-in-out;
 }
 .hugs-popover-enter-active {
   transition: all 0.36s ease-in-out;

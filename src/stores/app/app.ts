@@ -19,6 +19,8 @@ export const useAppStore = defineStore('App', () => {
     const isMobile = ref(false);
     // 浏览器页面历史记录
     const historyMarks = ref<string[]>([]);
+    // 文件BaseURL
+    const fileBaseURL = ref<string>(import.meta.env.VITE_APP_FILE_IP)
 
 
     // 主题切换
@@ -26,7 +28,7 @@ export const useAppStore = defineStore('App', () => {
         theme.value = value
     }
     return {
-        theme, headerUp, signInVisible, showLoginDialog, isMobile, historyMarks,
+        theme, headerUp, signInVisible, showLoginDialog, isMobile, historyMarks, fileBaseURL,
         changeTheme
     }
 })

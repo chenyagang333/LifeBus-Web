@@ -1,7 +1,7 @@
 <template>
   <div class="RightEntryMobile">
     <div @click="drawer = true">
-      <el-avatar v-if="userData" :src="FileIP + userData.userAvatar" />
+      <el-avatar v-if="userData" :src="userData.userAvatar" />
       <el-avatar v-else> 登录 </el-avatar>
     </div>
     <el-drawer
@@ -19,7 +19,7 @@
       <template v-if="userData">
         <JinnCardUser
           :ellipsis="true"
-          :avatarSrc="FileIP + userData.userAvatar"
+          :avatarSrc="userData.userAvatar"
           :userName="userData.userName"
           :content="userData.description"
           :AttentionCount="userData.attentionCount"
@@ -28,7 +28,9 @@
           @handler="goUserPageHandler"
         >
         </JinnCardUser>
-        <UserSelect @clickOption="drawer = false"></UserSelect>
+        <UserSelect
+          @clickOption="(name) => goUserPageHandler(name)"
+        ></UserSelect>
       </template>
       <el-button
         v-else
@@ -61,20 +63,18 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, nextTick, ref } from "vue";
+import { ref } from "vue";
 import { useAppStore } from "@/stores/app/app";
 import JinnCardUser from "@/components/jinn-components/JinnCardUser/JinnCardUser.vue";
 import { useUserStore } from "@/stores/user/user";
 import { storeToRefs } from "pinia";
-import { goUserPage } from "@/views/Layout1/user/user";
+import { goUserPage } from "@/utils-app/user";
 import { useRouter } from "vue-router";
 import useEventListenerPopstate from "@/hooks/useEventListenerPopstate";
 import AppThemeSwitching from "@/components-App/AppThemeSwitching/index.vue";
 import JinnButton from "@/components/jinn-components/jinn-button/JinnButton.vue";
 import UserSelect from "./components/UserSelect.vue";
 
-const app = getCurrentInstance();
-const FileIP: string = app?.appContext.config.globalProperties.$FileIP;
 
 const UserStore = useUserStore(); // 拿到管理用户信息的仓库
 const { userData } = storeToRefs(UserStore); // 响应式的结构变量
@@ -84,11 +84,11 @@ const router = useRouter();
 
 const { visible: drawer } = useEventListenerPopstate("RightEntryMobile");
 
-const goUserPageHandler = () => {
+const goUserPageHandler = (name: string = "production") => {
   drawer.value = false;
   setTimeout(() => {
     if (userData.value) {
-      goUserPage(router, userData.value.id);
+      goUserPage(router, userData.value.id, name);
     }
   }, 300);
 };

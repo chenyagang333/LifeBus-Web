@@ -14,6 +14,7 @@
         <div class="left">
           <emotion
             placement="bottom-start"
+          :imgBaseUrl="appStore.fileBaseURL"
             @enter-emotion="(src: string) => enterEmotion(src)"
           ></emotion>
           <i class="bi bi-card-image add-imgs" @click="showImgList = true"></i>

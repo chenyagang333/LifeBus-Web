@@ -15,8 +15,8 @@
           class=""
           v-for="(i, index) in 105"
           :key="i"
-          :src="`${FileIP}emotions/${index}.gif`"
-          @click="enterEmotion(`${FileIP}emotions/${index}.gif`)"
+          :src="`${imgBaseUrl}emotions/${index}.gif`"
+          @click="enterEmotion(`${imgBaseUrl}emotions/${index}.gif`)"
           />
           <!-- :src="`/src/assets/emotions/${index}.gif`" -->
       </div>
@@ -26,14 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import { getEmotionFiles } from "@/utils/FileUtils/EmotionFile";
-import { getCurrentInstance, ref } from "vue";
+import { ref } from "vue";
 
-const app = getCurrentInstance();
-const FileIP = app?.appContext.config.globalProperties.$FileIP;
 
 defineProps<{
   placement?: string;
+  imgBaseUrl:string
 }>();
 
 const popover = ref(null) as any; // 定义 ref.

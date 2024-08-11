@@ -26,6 +26,7 @@
       <div class="left" @mousedown="mousedownEmotion">
         <emotion
           placement="top-start"
+          :imgBaseUrl="appStore.fileBaseURL"
           @enter-emotion="(src: string) => 
         customInput.enterEmotion(src)"
         ></emotion>
@@ -43,11 +44,14 @@ import { ref} from "vue";
 import emotion from "./emotion/index.vue";
 import { onMounted } from "vue";
 import CustomInput from "./CustomInput.vue";
+import { useAppStore } from "@/stores/app/app";
 
 defineProps<{
   minHeight?: string; // 
   toUserName?: string; // 回复对象用户名
 }>();
+
+const appStore = useAppStore()
 
 const isReply = defineModel(); // 是否是回复评论类型的输入框
 

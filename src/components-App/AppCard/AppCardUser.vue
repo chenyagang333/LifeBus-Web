@@ -4,7 +4,7 @@
     <JinnCardUser
       v-else
       :ellipsis="ellipsis"
-      :avatarSrc="FileIP + showData.userAvatar"
+      :avatarSrc="showData.userAvatar"
       :userName="showData.userName"
       :content="showData.description ?? '此用户没有填写简介'"
       :AttentionCount="showData.attentionCount"
@@ -26,11 +26,9 @@ import AppCareBtn from "@/components-App/AppBtns/AppCareBtn.vue";
 import JinnCardUser from "@/components/jinn-components/JinnCardUser/JinnCardUser.vue";
 import { UserData } from "@/stores/user/user";
 import AppCardUserTemplate from "./AppCardUserTemplate.vue";
-import { onMounted, ref, getCurrentInstance, onBeforeMount } from "vue";
-import { goUserPage } from "@/views/Layout1/user/user";
+import { onMounted, ref, onBeforeMount } from "vue";
+import { goUserPage } from "@/utils-app/user";
 import { useRouter } from "vue-router";
-const app = getCurrentInstance();
-const FileIP: string = app?.appContext.config.globalProperties.$FileIP;
 
 const props = defineProps<{
   userId: number;

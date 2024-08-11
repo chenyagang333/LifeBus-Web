@@ -1,17 +1,12 @@
 <template>
-  <div class="UserLifeMoment">
-    <AppCardShow
-      ref="appCardShow"
-      @load-data="loadDataHandle"
-      v-if="showAppCardShow"
-    ></AppCardShow>
+  <div class="UserContent">
+    <AppCardShow ref="appCardShow" @load-data="loadDataHandle"></AppCardShow>
   </div>
 </template>
 
 <script setup lang="ts">
 import AppCardShow from "@/components-App/AppCardShow/AppCardShow.vue";
 import { get } from "@/api/AHttp/api";
-import { ref } from "vue";
 import { ShowType } from "@/types/Layout1/youshow/youshow";
 
 const props = defineProps<{
@@ -19,17 +14,17 @@ const props = defineProps<{
   type: string;
 }>();
 
-const showAppCardShow = ref<boolean>(true);
+const contentType = props.type;
 
 const loadDataHandle = async (
   pageIndex: number,
   query: (data: ShowType[]) => void
 ) => {
   let res: any;
-  if (props.type == "production") {
+  if (contentType == "production") {
     res = await pagingQueryByUserId(pageIndex);
-  } else if (props.type == "like" || props.type == "star") {
-    res = await pagingQueryByLikeOrStar(props.type, pageIndex);
+  } else if (contentType == "like" || contentType == "star") {
+    res = await pagingQueryByLikeOrStar(contentType, pageIndex);
   }
   if (res.code == 200) {
     query(res.data);

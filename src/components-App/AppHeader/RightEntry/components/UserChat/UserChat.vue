@@ -1,16 +1,11 @@
 <template>
-  <hugsPopoverWrap distance="15" position="br" animation="dance">
-    <template #animation>
-      <el-icon size="23"><ChatDotRound /></el-icon>
-    </template>
-    <template #second>私信</template>
-    <template #popover> </template>
-  </hugsPopoverWrap>
   <div class="UserChat">
+    <!-- 左侧 -->
     <div
       class="left-UserChatList"
       :style="{ width: `calc(${listWidth} + 10px)` }"
     >
+      <!-- 顶部 -->
       <div class="header">
         <div class="text" :style="{ opacity: isCollapse ? '0' : '1' }">
           私信
@@ -25,6 +20,7 @@
           ></i>
         </div>
       </div>
+      <!-- 消息列表 -->
       <el-scrollbar height="500px">
         <div class="contentList" :style="{ width: listWidth }">
           <div class="contentListInner" :style="{ width: listOpenWidth }">
@@ -35,13 +31,15 @@
         </div>
       </el-scrollbar>
     </div>
+    <!-- 右侧 -->
     <div class="right-Dialog" :style="{ width: openDialog ? '533px' : '0' }">
       <div class="UserChatDialog" style="width: 533px">
+        <!-- 顶部 -->
         <div class="header">
           <div class="name">{{ UserDialogData.toUserName }}</div>
           <div class="options">
-            <div class="ExitSession" @click="ExitSession()">退出会话</div>
-            <hugsPopoverWrap distance="15" position="br">
+            <div class="BtnOpt" @click="ExitSession()">退出会话</div>
+            <HugsPopoverWrap distance="15" position="br">
               <div class="Dot_3">···</div>
               <template #popover>
                 <div class="DialogOptions radius-overflow">
@@ -52,14 +50,17 @@
                   <JinnButton type="lucency">拉黑</JinnButton>
                 </div>
               </template>
-            </hugsPopoverWrap>
+            </HugsPopoverWrap>
+            <div class="BtnOpt" @click="$emit('close')">
+              <i class="bi bi-x-lg"></i>
+            </div>
           </div>
         </div>
         <div class="content" style="height: 500px">
           <el-scrollbar
             height="100%"
             style="padding-right: 10px"
-            :style="{height:`calc(500px - ${commentInputHeight}px)`}"
+            :style="{ height: `calc(500px - ${commentInputHeight}px)` }"
           >
             <UserChatDialog v-if="showUserChatDialog" :data="UserDialogData">
             </UserChatDialog>
@@ -77,15 +78,20 @@
 import { computed, nextTick, onMounted, ref } from "vue";
 import UserChatList from "./UserChatList.vue";
 import UserChatDialog from "./UserChatDialog.vue";
-import hugsPopoverWrap from "@/components/hugs-popover-wrap/hugs-popover-wrap.vue";
 import { UserDialog } from "./type.ts";
 import JinnButton from "@/components/jinn-components/jinn-button/JinnButton.vue";
 import CommentInput from "@/components/comment-add/CommentInput.vue";
+import HugsPopoverWrap from "@/components/hugs-popover-wrap/HugsPopoverWrap.vue";
 
-const openDialog = ref<boolean>(false);
-const isCollapse = ref<boolean>(false);
-const listOpenWidth = computed(() => (openDialog.value ? "240px" : "280px"));
-const listCollapseWidth = "55px";
+defineEmits<{
+  (e: "close"): void;
+}>();
+
+const openDialog = ref<boolean>(false); // 会话框是否开启
+defineExpose({ openDialog });
+const isCollapse = ref<boolean>(false); // 是否展开左侧列表
+const listOpenWidth = computed(() => (openDialog.value ? "240px" : "280px")); // 打开时的宽度
+const listCollapseWidth = "55px"; // 左侧列表收起时的宽度
 const listWidth = computed(() =>
   isCollapse.value ? listCollapseWidth : listOpenWidth.value
 );
@@ -117,7 +123,7 @@ const commentInputHeight = ref<number>(40);
   background-color: var(--jinn-color1);
   border: 1px solid var(--el-border-color);
   padding: 10px;
-  margin-top: 600px;
+  // margin-top: 600px;
   display: flex;
   .left-UserChatList {
     overflow: hidden;
@@ -177,17 +183,15 @@ const commentInputHeight = ref<number>(40);
           display: flex;
           align-items: center;
           gap: 15px;
+          font-size: 16px;
 
-          .ExitSession,
+          .BtnOpt,
           .Dot_3 {
             color: var(--jinn-text-color2);
             cursor: pointer;
             &:hover {
               color: var(--jinn-text-color1);
             }
-          }
-          .ExitSession {
-            font-size: 15px;
           }
           .Dot_3 {
             font-size: 22px;

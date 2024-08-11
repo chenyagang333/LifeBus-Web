@@ -37,7 +37,7 @@ const messages = ref<UserDialogMessage[]>([
   },
   {
     userDialogId: 0,
-    fromUserId: 2,
+    fromUserId: 3,
     toUserId: 1,
     postMessages: "你好呀",
     markRead: true,
@@ -57,7 +57,7 @@ const messages = ref<UserDialogMessage[]>([
   },
   {
     userDialogId: 0,
-    fromUserId: 2,
+    fromUserId: 3,
     toUserId: 1,
     postMessages: "你好呀",
     markRead: true,
@@ -77,7 +77,7 @@ const messages = ref<UserDialogMessage[]>([
   },
   {
     userDialogId: 0,
-    fromUserId: 2,
+    fromUserId: 3,
     toUserId: 1,
     postMessages: "你好呀",
     markRead: true,
@@ -87,7 +87,7 @@ const messages = ref<UserDialogMessage[]>([
   },
   {
     userDialogId: 0,
-    fromUserId: 2,
+    fromUserId: 3,
     toUserId: 1,
     postMessages: "你好呀嗯嗯你也是",
     markRead: true,
@@ -137,7 +137,7 @@ const messages = ref<UserDialogMessage[]>([
   },
   {
     userDialogId: 0,
-    fromUserId: 2,
+    fromUserId: 3,
     toUserId: 1,
     postMessages: "你好呀",
     markRead: true,

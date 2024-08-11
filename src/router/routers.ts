@@ -12,20 +12,21 @@ export const constantRoute = [
     component: () => import("@/views/Layout1/Layout1.vue"),
     name: "layout", // 命名路由
     redirect: "/",
-    meta: {
-      keepAlive: true // 需要缓存
-    },
     children: [
       {
         // 注册
         path: "/register",
         component: () => import("@/views/Layout1/Register/Register.vue"),
         name: "register", // 命名路由
+        meta: {
+        },
       },
       {
         path: "/",
         component: () => import("@/views/Layout1/youshow/youshow.vue"),
         name: "youshow",
+        meta: {
+        },
       },
       {
         path: "/search",
@@ -36,11 +37,15 @@ export const constantRoute = [
         path: "/user",
         component: () => import("@/views/Layout1/user/User.vue"),
         name: "User", // 命名路由
+        meta: {
+        },
       },
       {
         path: "/userself",
         component: () => import("@/views/Layout1/user/UserSelf.vue"),
         name: "UserSelf", // 命名路由
+        meta: {
+        },
       },
       {
         path: "/my",

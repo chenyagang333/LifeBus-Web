@@ -1,6 +1,6 @@
 :root {
   /* 文字颜色 */
-  --jinn-text-color1: rgb(93, 131, 255);
+  --base-jinn-text-color1: rgb(93, 131, 255);
   /* 宽度 */
   --jinn-min-width:1130px;
 }

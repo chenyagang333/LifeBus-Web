@@ -16,20 +16,13 @@ let router = createRouter({
   // history: createWebHashHistory(),
   history: createWebHistory(),
   routes: constantRoute,
-  // 滚动行为
-  // scrollBehavior() {
-  //   return {
-  //     left: 0,
-  //     top: 0,
-  //   };
-  // },
-  scrollBehavior(to:any, from:any, savedPosition:any) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
-      return { x: 0, y: 0 }
+      return { top: 0 }
     }
-  }
+  },
 });
 
 router.beforeEach((to, from, next) => {
@@ -64,27 +57,27 @@ router.beforeEach((to, from, next) => {
 // };
 
 // 选择跳转的路由
-const choosePush = (to: any, next: any) => {
-  const language = to.params.language as string; // 获取地址栏中的语言标识
+// const choosePush = (to: any, next: any) => {
+//   const language = to.params.language as string; // 获取地址栏中的语言标识
 
-  if (language) {
-    // 参数是否存在
-    if (language != zhCN && language != enUS) {
-      if (zhCN.includes(language) || language.includes(zhCN)) {
-        next({ path: to.fullPath.replace(language, zhCN) });
-      } else if (enUS.includes(language) || language.includes(enUS)) {
-        next({ path: to.fullPath.replace(language, enUS) });
-      } else {
-        next({ path: `/${zhCN}/` }); // 参数不存在或不包含enUS-US则跳转中文首页
-      }
-    } else {
-      next(); // 参数符合标准
-    }
-  } else {
-    // 参数不存在或不包含enUS-US则跳转中文首页
-    next({ path: `/${zhCN}/` }); // 符合标准
-  }
-};
+//   if (language) {
+//     // 参数是否存在
+//     if (language != zhCN && language != enUS) {
+//       if (zhCN.includes(language) || language.includes(zhCN)) {
+//         next({ path: to.fullPath.replace(language, zhCN) });
+//       } else if (enUS.includes(language) || language.includes(enUS)) {
+//         next({ path: to.fullPath.replace(language, enUS) });
+//       } else {
+//         next({ path: `/${zhCN}/` }); // 参数不存在或不包含enUS-US则跳转中文首页
+//       }
+//     } else {
+//       next(); // 参数符合标准
+//     }
+//   } else {
+//     // 参数不存在或不包含enUS-US则跳转中文首页
+//     next({ path: `/${zhCN}/` }); // 符合标准
+//   }
+// };
 
 //#endregion
 

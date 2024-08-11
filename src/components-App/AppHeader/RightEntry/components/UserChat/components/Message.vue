@@ -44,6 +44,7 @@ const avatarSRC = isMyMSG ? userStore.userData?.userAvatar : props.toUserAvatar;
       font-size: 13px;
       padding: 10px;
       background-color: var(--jinn-bg2);
+      color: var(--jinn-text-color1);
     }
   }
 }

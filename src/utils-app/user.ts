@@ -23,3 +23,8 @@ export const goUserPage = (router: Router, userId: number, type: string = "produ
 
 
 };
+
+export const goRegister = (router:Router) => {
+    // 切换注册
+    window.open(router.resolve({ path: "register" }).href, "_blank");
+};

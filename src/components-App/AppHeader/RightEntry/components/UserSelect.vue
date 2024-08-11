@@ -1,6 +1,15 @@
 <template>
   <div class="UserSelect">
     <div class="options">
+      <JinnButton @click="_goUserPage('production')">
+        <div class="left">
+          <i class="bi bi-file-earmark-richtext"></i> 我的动态
+        </div>
+        <div class="right">
+          {{ userData?.contentCount }}
+          <el-icon><ArrowRightBold /></el-icon>
+        </div>
+      </JinnButton>
       <JinnButton @click="_goUserPage('like')">
         <div class="left"><i class="bi bi-heart-fill"></i> 我的喜欢</div>
         <div class="right">
@@ -12,15 +21,6 @@
         <div class="left"><i class="bi bi-star-fill"></i> 我的收藏</div>
         <div class="right">
           {{ userData?.starCount }}
-          <el-icon><ArrowRightBold /></el-icon>
-        </div>
-      </JinnButton>
-      <JinnButton @click="_goUserPage('production')">
-        <div class="left">
-          <i class="bi bi-file-earmark-richtext"></i> 我的动态
-        </div>
-        <div class="right">
-          {{ userData?.contentCount }}
           <el-icon><ArrowRightBold /></el-icon>
         </div>
       </JinnButton>
@@ -37,13 +37,13 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user/user";
 import { removeToken } from "@/utils/token";
-import { goUserPage } from "@/views/Layout1/user/user";
+import { goUserPage } from "@/utils-app/user";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import JinnButton from "@/components/jinn-components/jinn-button/JinnButton.vue";
 
 const emit = defineEmits<{
-  (e: "clickOption"): void;
+  (e: "clickOption", name: string): void;
 }>();
 //#region 语言管理
 const lang = "Layout1."; // 基本参数管理
@@ -53,10 +53,7 @@ const { userData } = storeToRefs(UserStore); // 响应式的结构变量
 const router = useRouter();
 
 const _goUserPage = (name: string) => {
-  emit("clickOption");
-  setTimeout(() => {
-    goUserPage(router, userData.value?.id!, name);
-  }, 300);
+  emit("clickOption", name);
 };
 // 退出登录
 const logout = () => {

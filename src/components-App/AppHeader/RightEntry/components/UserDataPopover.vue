@@ -1,34 +1,25 @@
 <template>
-  <hugsPopoverWrap distance="15" class="user-data">
-    <el-avatar
-      :size="40"
-      :src="FileIP + userData?.userAvatar"
-      @click="goUserPage(router, userData?.id!)"
-    ></el-avatar>
-    <template #popover>
-      <div class="card-user card">
-        <div class="header">
-          <el-avatar
-            :size="50"
-            :src="FileIP + userData?.userAvatar"
-            @click="goUserPage(router, userData?.id!)"
-          ></el-avatar>
-          <div class="info">
-            <div class="top">
-              <span @click="goUserPage(router, userData?.id!)">{{
-                userData?.userName
-              }}</span>
-            </div>
-            <el-space class="bottom" :size="5" spacer="|">
-              <span>关注 {{ userData?.attentionCount }}</span>
-              <span>粉丝 {{ userData?.fansCount }}</span>
-            </el-space>
-          </div>
+  <div class="card-user card">
+    <div class="header">
+      <el-avatar
+        :size="50"
+        :src="userData?.userAvatar"
+        @click="goUserPage(router, userData?.id!)"
+      ></el-avatar>
+      <div class="info">
+        <div class="top">
+          <span @click="goUserPage(router, userData?.id!)">{{
+            userData?.userName
+          }}</span>
         </div>
-        <UserSelect></UserSelect>
+        <el-space class="bottom" :size="5" spacer="|">
+          <span>关注 {{ userData?.attentionCount }}</span>
+          <span>粉丝 {{ userData?.fansCount }}</span>
+        </el-space>
       </div>
-    </template>
-  </hugsPopoverWrap>
+    </div>
+    <UserSelect @clickOption="(name) => clickOption(name)"></UserSelect>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -36,19 +27,20 @@ import { getCurrentInstance } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user/user";
 import { useRouter } from "vue-router";
-import hugsPopoverWrap from "@/components/hugs-popover-wrap/hugs-popover-wrap.vue";
-import { goUserPage } from "@/views/Layout1/user/user";
-import UserSelect from './UserSelect.vue';
+import hugsPopoverWrap from "@/components/hugs-popover-wrap/HugsPopoverWrap.vue";
+import { goUserPage } from "@/utils-app/user";
+import UserSelect from "./UserSelect.vue";
 
 //#region 语言管理
 const lang = "Layout1."; // 基本参数管理
 
-const app = getCurrentInstance();
-const FileIP: string = app?.appContext.config.globalProperties.$FileIP;
 const UserStore = useUserStore(); // 拿到管理用户信息的仓库
 const { userData } = storeToRefs(UserStore); // 响应式的结构变量
 const router = useRouter();
 
+const clickOption = (name: string) => {
+  goUserPage(router, userData.value?.id!, name);
+};
 </script>
 
 <style scoped lang="scss">
@@ -90,6 +82,5 @@ const router = useRouter();
       }
     }
   }
-
 }
 </style>

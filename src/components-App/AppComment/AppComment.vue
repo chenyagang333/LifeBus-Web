@@ -22,7 +22,7 @@
               <template #avatar>
                 <el-avatar
                   :size="40"
-                  :src="FileIP + c.userAvatarURL"
+                  :src="appStore.fileBaseURL + c.userAvatarURL"
                 ></el-avatar>
               </template>
               <template #author>
@@ -87,7 +87,7 @@
                       <template #avatar>
                         <el-avatar
                           :size="20"
-                          :src="FileIP + r.userAvatarURL"
+                          :src="appStore.fileBaseURL + r.userAvatarURL"
                         ></el-avatar>
                       </template>
                       <template #author>
@@ -147,7 +147,7 @@
         <template #renderItem="{ item: c, index: cIndex, itemRef: cRef }">
           <JinnComment ref="commentRefs">
             <template #avatar>
-              <el-avatar :size="40" :src="FileIP + c.userAvatarURL"></el-avatar>
+              <el-avatar :size="40" :src="c.userAvatarURL"></el-avatar>
             </template>
             <template #author>
               <AppCommentAuthor :userName="c.userName"></AppCommentAuthor>
@@ -209,10 +209,7 @@
                 <template #renderItem="{ item: r, index: rIndex }">
                   <JinnComment>
                     <template #avatar>
-                      <el-avatar
-                        :size="20"
-                        :src="FileIP + r.userAvatarURL"
-                      ></el-avatar>
+                      <el-avatar :size="20" :src="r.userAvatarURL"></el-avatar>
                     </template>
                     <template #author>
                       <AppCommentAuthor
@@ -288,7 +285,7 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, nextTick, onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import { CommentItem, CommentType } from "./AppCommentType";
 import AppEmpty from "@/components-App/AppEmpty/AppEmpty.vue";
 import JinnList from "@/components/jinn-components/jinn-list/jinn-list.vue";
@@ -308,13 +305,13 @@ import { useUserStore } from "@/stores/user/user";
 import { storeToRefs } from "pinia";
 import GetNowData from "@/utils/Time/NowDate";
 import { ElMessage } from "element-plus";
+import { useAppStore } from "@/stores/app/app";
 
 const emit = defineEmits<{
   (e: "addCommentCount", count: number): void;
 }>();
 
-const app = getCurrentInstance();
-const FileIP: string = app?.appContext.config.globalProperties.$FileIP;
+const appStore = useAppStore();
 
 const UserStore = useUserStore(); // 拿到管理用户信息的仓库
 const { userData } = storeToRefs(UserStore); // 响应式的结构变量
@@ -586,7 +583,7 @@ const builderParams = async (html: string): Promise<CommentItem> => {
   return {
     id: 0,
     userId: userData.value?.id!,
-    userAvatarURL: userData.value?.userAvatar!,
+    userAvatarURL: userData.value?.userAvatarRelativeUrl!,
     userName: userData.value?.userName!,
     createTime: GetNowData(),
     publishAddress: resAddress,

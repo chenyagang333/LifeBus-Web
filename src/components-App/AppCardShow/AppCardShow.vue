@@ -96,14 +96,14 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, nextTick, onMounted, ref, watch } from "vue";
+import { nextTick, onMounted, ref, watch } from "vue";
 import { MyFileInfo, ShowType } from "@/types/Layout1/youshow/youshow";
 import AppCard from "@/components-App/AppCard/AppCard.vue";
 import { useRoute, useRouter } from "vue-router";
 import useEventListenerPopstate from "@/hooks/useEventListenerPopstate";
 import { useAppStore } from "@/stores/app/app";
 import { ElMessage } from "element-plus";
-import { goUserPage } from "@/views/Layout1/user/user";
+import { goUserPage } from "@/utils-app/user";
 import AppTabs from "@/components-App/AppTabs/AppTabs.vue";
 import commentDialog from "./components/comment-dialog.vue";
 import load from "./components/load.vue";
@@ -111,8 +111,6 @@ import { get } from "@/api/AHttp/api";
 import JinnImageViewer from "@/components/jinn-components/jinn-image-viewer/JinnImageViewer.vue";
 import AppComment from "@/components-App/AppComment/AppComment.vue";
 
-const app = getCurrentInstance();
-const FileIP: string = app?.appContext.config.globalProperties.$FileIP;
 const AppStore = useAppStore(); //
 
 const route = useRoute();
@@ -219,7 +217,7 @@ const detailData = ref<ShowType>({
 // 点击某个文件
 const clickFile = (index: number, files: MyFileInfo[]) => {
   currentIndex.value = index;
-  urlList.value = files.map((x) => FileIP + x.firstURL);
+  urlList.value = files.map((x) => x.firstURL);
   showImgView.value = true;
 };
 // 分享
