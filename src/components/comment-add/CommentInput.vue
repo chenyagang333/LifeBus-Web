@@ -1,60 +1,83 @@
 <template>
   <div
-    class="CommentInput radius-overflow"
     ref="commentInputContainer"
-    :style="{ paddingBottom: rise ? '40px' : '' }"
+    class="CommentInput radius-overflow"
+    :class="{ isColumn: isColumn }"
   >
-    <el-scrollbar max-height="100px" style="width: 100%; padding-right: 10px">
-      <CustomInput
-        ref="CustomInputRef"
-        placeholder="发送消息"
-        fontSize="14px"
-        observeInput
-        @observeInput="observeCustomInput"
-      ></CustomInput>
-    </el-scrollbar>
-    <div class="options" :style="{ width: `${optionsWidth}px` }"></div>
+    <div class="contentCoat" @click="CustomInputRef.focusTextArea(true)">
+      <div class="content" ref="contentRef">
+        <el-scrollbar max-height="100px" style="padding-right: 10px">
+          <CustomInput
+            ref="CustomInputRef"
+            placeholder="发送消息"
+            fontSize="14px"
+            @click.stop=""
+          ></CustomInput>
+        </el-scrollbar>
+      </div>
+    </div>
+    <div class="options" :style="{ width: `${optionsWidth}px` }">
+      <emotion
+        placement="bottom-start"
+        :imgBaseUrl="appStore.fileBaseURL"
+        @enter-emotion="(src: string) => enterEmotion(src)"
+      ></emotion>
+      <i class="bi bi-card-image"></i>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import CustomInput from "./CustomInput.vue";
+import { useAppStore } from "@/stores/app/app";
+import emotion from "./emotion/index.vue";
 
 const emit = defineEmits<{
   (e: "heightHandler", height: number): void;
 }>();
+const appStore = useAppStore();
 
+const contentRef = ref<any>();
+const CustomInputRef = ref<any>();
 const commentInputContainer = ref();
-// const myObserver = new ResizeObserver((entries) => {
-//   emit(
-//     "heightHandler",
-//     commentInputContainer.value.getBoundingClientRect().height
-//   );
-// });
-
-// onMounted(() => {
-//   myObserver.observe(commentInputContainer.value);
-// });
-
 const optionsWidth = 100;
-const observeCustomInput = (entry: any, vc: any) => {
-  emit(
-    "heightHandler",
-    commentInputContainer.value.getBoundingClientRect().height
-  );
-  const commentInputWidth =
-    commentInputContainer.value.getBoundingClientRect().width;
-  const inputWidth = vc.getBoundingClientRect().width;
-  if (inputWidth > commentInputWidth - optionsWidth) {
-    rise.value = true;
-  } else {
-    rise.value = false;
-  }
-  console.log("entry :>> ", commentInputWidth, inputWidth);
+const defaultHeight = 40;
+const getCommentInputContainerBoundingClientRect = () => {
+  return commentInputContainer.value.getBoundingClientRect();
+};
+const getcontentRefBoundingClientRect = () => {
+  return contentRef.value.getBoundingClientRect();
 };
 
-const rise = ref<boolean>(false);
+const observeCustomInput = () => {
+  const containerWidth = getCommentInputContainerBoundingClientRect().width;
+  const input = getcontentRefBoundingClientRect();
+  const inputWidth = input.width;
+  let columnState;
+  if (inputWidth > containerWidth - optionsWidth - 15) {
+    columnState = true;
+  } else {
+    columnState = false;
+  }
+  if (isColumn.value !== columnState) {
+    isColumn.value = columnState;
+  }
+  emit("heightHandler", input.height + (isColumn.value ? defaultHeight : 0));
+};
+
+const isColumn = ref<boolean>(false);
+
+onMounted(() => {
+  const myObserver = new ResizeObserver((entries) => {
+    observeCustomInput();
+  });
+  myObserver.observe(contentRef.value);
+});
+
+const enterEmotion = (src: string) => {
+  CustomInputRef.value.enterEmotion(src);
+};
 </script>
 
 <style scoped lang="scss">
@@ -63,8 +86,9 @@ const rise = ref<boolean>(false);
   border: 0.5px solid var(--jinn-bg3);
   transition: all 0.2s ease-in-out;
   overflow: hidden;
+  width: 100%;
+  display: flex;
   min-height: 40px;
-  position: relative;
   &:focus-within {
     border: 0.5px solid var(--jinn-text-color2);
   }
@@ -72,15 +96,28 @@ const rise = ref<boolean>(false);
     padding: 10px;
     padding-right: 0px;
     width: fit-content;
+    height: 100%;
+  }
+  .contentCoat {
+    height: 100%;
+    cursor: text;
+    flex: 1;
+    .content {
+      height: 100%;
+      width: fit-content;
+    }
   }
   .options {
-    height: 36px;
-    background-color: red;
+    height: 40px;
     display: flex;
     align-items: center;
-    position: absolute;
-    bottom: 1px;
-    right: 1px;
+  }
+}
+.isColumn {
+  flex-direction: column;
+  align-items: flex-end;
+  .contentCoat {
+    width: 100%;
   }
 }
 </style>

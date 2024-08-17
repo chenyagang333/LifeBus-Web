@@ -7,6 +7,19 @@
   overflow: hidden;
   border: 1px solid var(--el-border-color);
 }
-
-
-
+/* nprogress */
+#nprogress .bar {
+  // background: var(--el-color-primary) !important;
+  background: var(--jinn-color6) !important;
+  // height: 2px;
+}
+#nprogress .spinner-icon {
+  // border-top-color: var(--el-color-primary) !important;
+  // border-left-color: var(--el-color-primary) !important;
+  border-top-color: var(--jinn-color6) !important;
+  border-left-color: var(--jinn-color6) !important;
+}
+#nprogress .peg {
+  // box-shadow: 0 0 10px var(--el-color-primary), 0 0 5px var(--el-color-primary) !important;
+  box-shadow: 0 0 10px var(--jinn-color6), 0 0 5px var(--jinn-color6) !important;
+}

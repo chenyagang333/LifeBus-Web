@@ -4,6 +4,7 @@ html[data-theme="dark"] {
   --jinn-color3: rgb(130, 126, 254);
   --jinn-color4: rgb(151, 148, 255);
   --jinn-color5: #aac8e4;
+  --jinn-color6: var(--jinn-color3);
   /* 文字颜色 */
   --jinn-text-color1: rgb(255 255 255 / 87%);
   --jinn-text-color2: rgb(255 255 255 / 67%);

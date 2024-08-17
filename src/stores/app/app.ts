@@ -13,6 +13,7 @@ export const useAppStore = defineStore('App', () => {
     // 登陆弹窗是否显示
     // const showLoginDialog = ref(false);
     const { visible: showLoginDialog } = useEventListenerPopstate('showLoginDialog');
+    // const showLoginDialog = ref(false);
     // 签到弹窗是否显示
     const { visible: signInVisible } = useEventListenerPopstate('signInVisible');
     // 屏幕是否为移动端尺寸

@@ -6,9 +6,11 @@ import { useUserStore } from '@/stores/user/user';
 import pinia from '@/stores'; // 在获取小仓库之前必须要引入大仓库
 import { getToken } from "@/utils/token";
 import { storeToRefs } from "pinia";
+import NProgress from '@/utils/nprogress';
 
 const UserStore = useUserStore(pinia); // 拿到管理用户信息的仓库
 const { userData } = storeToRefs(UserStore); // 响应式的结构变量
+
 
 // 创建路由器
 let router = createRouter({
@@ -26,6 +28,7 @@ let router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  NProgress.start()
   if (getToken()) {
     if (!userData.value) {
       UserStore.getUserData();
@@ -37,9 +40,13 @@ router.beforeEach((to, from, next) => {
   next(); // 参数符合标准
 });
 
-// router.afterEach((to, from) => {
-// configLanguage(to);
-// });
+router.afterEach((to, from) => {
+  NProgress.done()
+});
+router.onError(error => {
+  NProgress.done();
+  console.warn("路由错误", error.message);
+});
 
 
 

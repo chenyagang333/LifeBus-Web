@@ -2,7 +2,7 @@
   <div class="UserChat">
     <!-- 左侧 -->
     <div
-      class="left-UserChatList"
+      class="leftUserChatList"
       :style="{ width: `calc(${listWidth} + 10px)` }"
     >
       <!-- 顶部 -->
@@ -20,20 +20,22 @@
           ></i>
         </div>
       </div>
-      <!-- 消息列表 -->
-      <el-scrollbar height="500px">
-        <div class="contentList" :style="{ width: listWidth }">
-          <div class="contentListInner" :style="{ width: listOpenWidth }">
-            <UserChatList
-              @clickItem="(data:UserDialog) => openDialogHandler(data)"
-            ></UserChatList>
+      <div class="content">
+        <!-- 消息列表 -->
+        <el-scrollbar height="100%">
+          <div class="contentList" :style="{ width: listWidth }">
+            <div class="contentListInner" :style="{ width: listOpenWidth }">
+              <UserChatList
+                @clickItem="(data:UserDialog) => openDialogHandler(data)"
+              ></UserChatList>
+            </div>
           </div>
-        </div>
-      </el-scrollbar>
+        </el-scrollbar>
+      </div>
     </div>
     <!-- 右侧 -->
-    <div class="right-Dialog" :style="{ width: openDialog ? '533px' : '0' }">
-      <div class="UserChatDialog" style="width: 533px">
+    <div class="rightDialog" :style="{ width: openDialog ? '533px' : '0' }">
+      <div class="UserChatDialog">
         <!-- 顶部 -->
         <div class="header">
           <div class="name">{{ UserDialogData.toUserName }}</div>
@@ -56,11 +58,10 @@
             </div>
           </div>
         </div>
-        <div class="content" style="height: 500px">
+        <div class="content">
           <el-scrollbar
-            height="100%"
             style="padding-right: 10px"
-            :style="{ height: `calc(500px - ${commentInputHeight}px)` }"
+            :style="{ height: `calc(100% - ${commentInputHeight}px)` }"
           >
             <UserChatDialog v-if="showUserChatDialog" :data="UserDialogData">
             </UserChatDialog>
@@ -123,17 +124,30 @@ const commentInputHeight = ref<number>(40);
   background-color: var(--jinn-color1);
   border: 1px solid var(--el-border-color);
   padding: 10px;
-  // margin-top: 600px;
+  height: 70vh;
+  min-height: 560px;
+  max-height: 633px;
   display: flex;
-  .left-UserChatList {
+  .leftUserChatList,
+  .rightDialog .UserChatDialog {
+    display: flex;
+    flex-direction: column;
+    .header {
+      height: 33px;
+      width: 100%;
+    }
+    .content {
+      height: calc(100% - 33px);
+      width: 100%;
+    }
+  }
+  .leftUserChatList {
     overflow: hidden;
     transition: width 0.3s ease-in-out;
     .header {
       position: relative;
-      height: 36px;
       color: var(--jinn-text-color1);
       font-size: 18px;
-      width: 100%;
       .text,
       .handler {
         position: absolute;
@@ -158,19 +172,18 @@ const commentInputHeight = ref<number>(40);
       }
     }
   }
-  .right-Dialog {
+  .rightDialog {
     transition: width 0.3s ease-in-out;
     overflow: hidden;
+    height: 100%;
     .UserChatDialog {
+      height: 100%;
       border-left: 1px solid var(--el-border-color);
-      width: 100%;
+      width: 533px;
       height: 100%;
       padding: 0 0 0 20px;
-      display: flex;
-      flex-direction: column;
+
       .header {
-        width: 100%;
-        height: 36px;
         display: flex;
         justify-content: space-between;
         padding-right: 10px;

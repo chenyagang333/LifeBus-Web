@@ -10,9 +10,9 @@
         ></AppSidebarLeft>
         <router-view v-slot="{ Component }">
           <!-- <transition name="fade"> -->
-            <keep-alive :include="keepActiveComponents" :max="9">
-              <component :is="Component" />
-            </keep-alive>
+          <keep-alive :include="keepActiveComponents" :max="9">
+            <component :is="Component" />
+          </keep-alive>
           <!-- </transition> -->
         </router-view>
       </div>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import AppHeader from "@/components-App/AppHeader/AppHeader.vue";
 import { useAppStore } from "@/stores/app/app";
 import { storeToRefs } from "pinia";
@@ -74,6 +74,7 @@ const appStore = useAppStore(); //
 const { headerUp } = storeToRefs(store);
 
 const route = useRoute();
+const router = useRouter();
 
 // 缓存路由组件
 const keepActiveComponents = ["register", "youshow", "User", "UserSelf"];
@@ -145,7 +146,11 @@ const configShowTopImg = (name: string) => {
   }
 };
 
-onBeforeRouteUpdate((to) => {
+// onBeforeRouteUpdate((to) => {
+  // console.log("123 :>> ", 123);
+// });
+
+router.afterEach((to, from) => {
   configShowTopImg(to.name as string);
 });
 
@@ -168,6 +173,7 @@ onBeforeUnmount(() => {
 });
 
 //#endregion 监听窗口宽度
+
 </script>
 
 <style lang="scss" scoped>

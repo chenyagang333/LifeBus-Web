@@ -19,24 +19,15 @@ const props = defineProps<{
   placeholder: string;
   minHeight?: string;
   fontSize?: string;
-  observeInput?: boolean;
 }>();
 
 const commentBoxRef = ref(null) as any; // 定义 ref.
 const emit = defineEmits<{
   (e: "custom-blur"): void;
   (e: "custom-focus"): void;
-  (e: "observeInput", entry: any, vc: any): void;
 }>();
 
-onMounted(() => {
-  if (props.observeInput) {
-    const myObserver = new ResizeObserver((entries) => {
-      emit("observeInput", entries[0], commentBoxRef.value);
-    });
-    myObserver.observe(commentBoxRef.value);
-  }
-});
+onMounted(() => {});
 
 //#region 事件处理
 
@@ -96,8 +87,17 @@ const enterEmotion = (imgURL: string) => {
 //#region 组件对外暴露事件
 
 // 父组件 激活窗口，刷新窗口的状态
-const focusTextArea = () => {
+const focusTextArea = (last: boolean = false) => {
   commentBoxRef.value?.focus();
+  // 将光标移动到最后
+  if (last) {
+    let range = document.createRange();
+    range.selectNodeContents(commentBoxRef.value);
+    range.collapse(false);
+    let sel = window.getSelection() as any;
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
   emit("custom-focus");
 };
 const getInnerHTML = () => {

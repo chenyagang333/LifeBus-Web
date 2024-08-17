@@ -45,6 +45,7 @@ const props = withDefaults(
 const fileTypes = props.srcList.map((x) => getFileTypeByFileName(x));
 // 预览图弹窗控制
 const { visible: showImgView } = useEventListenerPopstate("showImgView", true);
+
 // 视频弹窗控制
 const dialogVideoVisible = ref<boolean>(false);
 const VideoSrc = ref<string>("");

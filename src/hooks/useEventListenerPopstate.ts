@@ -1,6 +1,6 @@
 import { useAppStore } from '@/stores/app/app';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
-import { onBeforeRouteUpdate, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 // 监听浏览器的回退行为来关闭弹窗
 export default function useEventListenerPopstate(_mark: string = '', _visible: boolean = false) {
@@ -51,16 +51,16 @@ export default function useEventListenerPopstate(_mark: string = '', _visible: b
   });
 
   // Listen to popstate event on component mount
-  onMounted(() => {
-    // 如果初始变量为 true，则直接添加记录
-    if (_visible) {
-      pushHistory();
-    }
-  });
+  // onMounted(() => {
+  // });
+  // 如果初始变量为 true，则直接添加记录
+  if (_visible) {
+    pushHistory();
+  }
 
   // Remove popstate listener on component unmount
-  onUnmounted(() => {
-    window.removeEventListener('popstate', handlePopstate);
-  });
+  // onUnmounted(() => {
+  //   window.removeEventListener('popstate', handlePopstate);
+  // });
   return { visible }
 }
