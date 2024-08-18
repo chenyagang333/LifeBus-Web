@@ -294,13 +294,13 @@ import JinnContent from "@/components/jinn-components/jinn-content/jinn-content.
 import JinnContentFiles from "@/components/jinn-components/jinn-content/jinn-content-files/jinn-content-files.vue";
 import CommentOption from "@/components/comment-option/category1.vue";
 import CommentOption2 from "@/components/comment-option/category2.vue";
-import { ApiResult, del, get, post } from "@/api/AHttp/api";
+import { ApiResult, del, get, post } from "@/api/http/api";
 import CommentAdd from "@/components/comment-add/CommentAdd.vue";
 import AppCommentOptions from "./components/AppCommentOptions.vue";
 import AppExpandReply from "./components/AppExpandReply.vue";
 import AppCommentAuthor from "./components/AppCommentAuthor.vue";
 import AppCommentSendTip from "./components/AppCommentSendTip.vue";
-import { GetAddressByYouShowAsync } from "@/api/Commen";
+import { GetAddressByYouShowAsync } from "@/api/Common";
 import { useUserStore } from "@/stores/user/user";
 import { storeToRefs } from "pinia";
 import GetNowData from "@/utils/Time/NowDate";

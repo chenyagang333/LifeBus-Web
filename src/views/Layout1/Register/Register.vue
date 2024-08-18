@@ -77,7 +77,7 @@
 import { reactive, ref } from "vue";
 import Header from "./Header.vue";
 import CountDown from "@/components/CountDown.vue";
-import { CreateUser, SendCodeByRegister } from "@/api/Register";
+import { CreateUser, SendCodeByRegister } from "@/api/service-identity/Register";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
 import { useRouter } from "vue-router";
 import { validateEmail } from "@/utils/FormValidation/RegExpHelper";

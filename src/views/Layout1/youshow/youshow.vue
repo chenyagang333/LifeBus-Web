@@ -33,9 +33,9 @@
 import { getCurrentInstance, onMounted, ref, watch } from "vue";
 import PublishShow from "@/components/comment-add/PublishShow.vue";
 import { ShowType } from "@/types/Layout1/youshow/youshow";
-import { ApiResult, del, get, post } from "@/api/AHttp/api";
+import { ApiResult, del, get, post } from "@/api/http/api";
 import myMessage from "@/components/message/my-message.vue";
-import { GetAddressAsync, GetAddressByYouShowAsync } from "@/api/Commen";
+import { GetAddressAsync, GetAddressByYouShowAsync } from "@/api/Common";
 import GetNowData from "@/utils/Time/NowDate";
 import AppCardShow from "@/components-App/AppCardShow/AppCardShow.vue";
 import AppHeaderChannel from "@/components-App/AppHeaderChannel/AppHeaderChannel.vue";

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import AppCardShow from "@/components-App/AppCardShow/AppCardShow.vue";
-import { get } from "@/api/AHttp/api";
+import { get } from "@/api/http/api";
 import { ShowType } from "@/types/Layout1/youshow/youshow";
 
 const props = defineProps<{

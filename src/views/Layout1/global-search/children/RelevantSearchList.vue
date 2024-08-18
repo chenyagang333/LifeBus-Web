@@ -21,7 +21,7 @@
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import JinnButton from "@/components/jinn-components/jinn-button/JinnButton.vue";
-import { get } from "@/api/AHttp/api";
+import { get } from "@/api/http/api";
 
 const route = useRoute();
 const router = useRouter();

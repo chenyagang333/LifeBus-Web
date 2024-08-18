@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import UserContentTabs from "./components/UserContentTabs.vue";
-import { ApiResult, get } from "@/api/AHttp/api";
+import { ApiResult, get } from "@/api/http/api";
 import { UserData } from "@/stores/user/user";
 import { useUserStore } from "@/stores/user/user";
 import UserEdit from "./components/UserEdit.vue";

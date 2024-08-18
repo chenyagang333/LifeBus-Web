@@ -36,7 +36,7 @@
 import { onMounted, ref } from "vue";
 import AppCardShow from "@/components-App/AppCardShow/AppCardShow.vue";
 import { ShowType } from "@/types/Layout1/youshow/youshow";
-import { get } from "@/api/AHttp/api";
+import { get } from "@/api/http/api";
 import { useRoute, useRouter } from "vue-router";
 import { nextTick } from "vue";
 

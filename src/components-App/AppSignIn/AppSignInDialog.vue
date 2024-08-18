@@ -33,7 +33,7 @@ import img1 from "@/assets/home-top-0.jpg";
 import img2 from "@/assets/home/OIP-C.jpg";
 import JinnSignIn from "@/components/jinn-components/jinn-sign-in/JinnSignIn.vue";
 import JinnSignInFriend from "@/components/jinn-components/jinn-sign-in/JinnSignInFriend.vue";
-import { get } from "@/api/AHttp/api";
+import { get } from "@/api/http/api";
 import { ElMessage } from "element-plus";
 import { useAppStore } from "@/stores/app/app";
 

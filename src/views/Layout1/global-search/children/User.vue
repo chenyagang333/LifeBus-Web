@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import AppCardUser from "@/components-App/AppCard/AppCardUser.vue";
-import { get } from "@/api/AHttp/api";
+import { get } from "@/api/http/api";
 import { useRoute } from "vue-router";
 import { UserData } from "@/stores/user/user";
 import AppCardUserTemplate from "@/components-App/AppCard/AppCardUserTemplate.vue";

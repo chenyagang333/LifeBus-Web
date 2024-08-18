@@ -1,5 +1,5 @@
 // 统一管理项目用户相关的接口
-import { get, post } from "@/api/AHttp/api";
+import { get, post } from "@/api/http/api";
 
 // 统一管理接口
 enum API {

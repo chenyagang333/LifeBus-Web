@@ -59,7 +59,7 @@
 import useEventListenerPopstate from "@/hooks/useEventListenerPopstate";
 import { useUserStore } from "@/stores/user/user";
 import { reactive } from "vue";
-import { post } from "@/api/AHttp/api";
+import { post } from "@/api/http/api";
 import { useAppStore } from "@/stores/app/app";
 import { ElMessage } from "element-plus";
 import UploadImg from "@/components/Upload/img.vue";

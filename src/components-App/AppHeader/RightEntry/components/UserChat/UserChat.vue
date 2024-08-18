@@ -97,11 +97,9 @@ const listWidth = computed(() =>
   isCollapse.value ? listCollapseWidth : listOpenWidth.value
 );
 const openDialogHandler = async (data: UserDialog) => {
-  if (!isCollapse.value) {
-    isCollapse.value = true
-  }
   if (!openDialog.value) {
     openDialog.value = true;
+    isCollapse.value = true
   }
   UserDialogData.value = data;
   showUserChatDialog.value = false;

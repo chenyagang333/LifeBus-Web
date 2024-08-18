@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue';
-import { GetUserData } from "@/api/Layout1";
+import { GetUserData } from "@/api/service-identity/Layout1";
 import { removeToken } from '@/utils/token';
 import { ElMessage } from 'element-plus';
 
@@ -22,9 +22,10 @@ export interface UserData {
 
 export const useUserStore = defineStore('user', () => {
     const userData = ref<UserData | null>()
+    const showUserChat = ref<boolean>(false)
 
 
-    async function getUserData() {
+    const getUserData = async () => {
         try {
             const res = await GetUserData();
             if (res.code == 200) {
@@ -39,5 +40,5 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    return { userData, getUserData }
+    return { userData,showUserChat, getUserData }
 })

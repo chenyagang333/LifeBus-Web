@@ -165,7 +165,7 @@ import {
   LoginByMail,
   LoginByPhoneSMS,
   SendCodeByLogin,
-} from "@/api/LoginDialog";
+} from "@/api/service-identity/LoginDialog";
 import {
   checkInputs,
   checkInputPhone,

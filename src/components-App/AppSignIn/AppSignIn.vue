@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useUserStore } from "@/stores/user/user";
-import { get } from "@/api/AHttp/api";
+import { get } from "@/api/http/api";
 import { useAppStore } from "@/stores/app/app";
 
 const userStore = useUserStore(); // 拿到管理用户信息的仓库

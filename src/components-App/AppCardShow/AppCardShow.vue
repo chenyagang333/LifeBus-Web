@@ -107,7 +107,7 @@ import { goUserPage } from "@/utils-app/user";
 import AppTabs from "@/components-App/AppTabs/AppTabs.vue";
 import commentDialog from "./components/comment-dialog.vue";
 import load from "./components/load.vue";
-import { get } from "@/api/AHttp/api";
+import { get } from "@/api/http/api";
 import JinnImageViewer from "@/components/jinn-components/jinn-image-viewer/JinnImageViewer.vue";
 import AppComment from "@/components-App/AppComment/AppComment.vue";
 

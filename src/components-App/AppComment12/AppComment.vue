@@ -38,9 +38,9 @@ import CommentAdd from "@/components/comment-add/CommentAdd.vue";
 import myMessage from "@/components/message/my-message.vue";
 import { useUserStore } from "@/stores/user/user";
 import { storeToRefs } from "pinia";
-import { get, del, post } from "@/api/AHttp/api";
+import { get, del, post } from "@/api/http/api";
 import { ElMessage } from "element-plus";
-import { ApiResult } from "@/api/AHttp/api";
+import { ApiResult } from "@/api/http/api";
 import JinnComment from "@/components/jinn-components/jinn-comment/jinn-comment.vue";
 import type {
   CallBack,

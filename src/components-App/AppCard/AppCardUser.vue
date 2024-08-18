@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ApiResult, get } from "@/api/AHttp/api";
+import { ApiResult, get } from "@/api/http/api";
 import AppCareBtn from "@/components-App/AppBtns/AppCareBtn.vue";
 import JinnCardUser from "@/components/jinn-components/JinnCardUser/JinnCardUser.vue";
 import { UserData } from "@/stores/user/user";

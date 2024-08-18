@@ -1,5 +1,5 @@
 // 统一管理项目用户相关的接口
-import request from "@/api/AHttp/request";
+import request from "@/api/http/request";
 import { AxiosRequestConfig } from "axios";
 
 export interface ApiResult<T> {

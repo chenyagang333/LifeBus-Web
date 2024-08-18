@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ApiResult, get } from "@/api/AHttp/api";
+import { ApiResult, get } from "@/api/http/api";
 import { onMounted, ref } from "vue";
 import { useUserStore } from "@/stores/user/user";
 const UserStore = useUserStore(); // 拿到管理用户信息的仓库

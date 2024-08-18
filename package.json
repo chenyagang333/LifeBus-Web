@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "gen:api": "openapi-generator-cli generate -i https://localhost:7266/swagger/v1/swagger.json -g typescript-axios --additional-properties=apiPackage=api,modelPackage=model,withSeparateModelsAndApi=true -o ./src/api/generated --skip-validate-spec"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
@@ -15,7 +16,6 @@
     "axios": "^1.6.5",
     "bootstrap-icons": "^1.11.3",
     "element-plus": "^2.4.4",
-    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "vite-plugin-mock": "^3.0.1",
@@ -27,8 +27,10 @@
   "devDependencies": {
     "@arco-design/web-vue": "^2.54.1",
     "@intlify/unplugin-vue-i18n": "^2.0.0",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
     "@types/nprogress": "^0.2.3",
     "@vitejs/plugin-vue": "^4.5.2",
+    "mockjs": "^1.1.0",
     "less": "^4.2.0",
     "sass": "^1.69.7",
     "typescript": "^5.2.2",

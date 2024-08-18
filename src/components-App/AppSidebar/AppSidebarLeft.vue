@@ -202,6 +202,7 @@ onBeforeRouteUpdate((to) => {
           flex-direction: column;
           gap: 3px;
           width: 100%;
+          border-radius: var(--el-border-radius-base);
           > div {
             display: flex;
             gap: 10px;

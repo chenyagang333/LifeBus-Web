@@ -39,7 +39,7 @@
       :position="userData ? 'br' : 'bc'"
       animation="dance"
       :closeTrigger="computedUserChatOpenDialog"
-      v-model="msgDisplay"
+      v-model="showUserChat"
       @before-enter="onBeforeEnter('msg')"
     >
       <template #animation>
@@ -50,7 +50,7 @@
         <UserChat
           ref="userChatRef"
           v-if="userData"
-          @close="() => (msgDisplay = false)"
+          @close="() => (showUserChat = false)"
         ></UserChat>
         <UserNullCard v-else> 登陆后即可聊天 </UserNullCard>
       </template>
@@ -123,7 +123,7 @@ defineProps<{
 
 const UserStore = useUserStore(); // 拿到管理用户信息的仓库
 const appStore = useAppStore(); // app
-const { userData } = storeToRefs(UserStore); // 响应式的结构变量
+const { userData,showUserChat } = storeToRefs(UserStore); // 响应式的结构变量
 
 const route = useRoute();
 const router = useRouter();
@@ -140,11 +140,10 @@ const computedUserChatOpenDialog = computed(() =>
 );
 
 const closeOther = "msgDisplay";
-const msgDisplay = ref<boolean>(false);
 const onBeforeEnter = (type: string = closeOther) => {
   if (closeOther === type) {
-    if (msgDisplay.value) {
-      msgDisplay.value = false;
+    if (showUserChat.value) {
+      showUserChat.value = false;
     }
   }
 };
