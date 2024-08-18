@@ -41,8 +41,9 @@ const appStore = useAppStore();
 const contentRef = ref<any>();
 const CustomInputRef = ref<any>();
 const commentInputContainer = ref();
-const optionsWidth = 100;
-const defaultHeight = 40;
+const optionsWidth = 100; // 选项宽度
+const defaultHeight = 40; // 默认容器高度
+let containerHeight:number = 0 // 容器高度
 const getCommentInputContainerBoundingClientRect = () => {
   return commentInputContainer.value.getBoundingClientRect();
 };
@@ -63,7 +64,11 @@ const observeCustomInput = () => {
   if (isColumn.value !== columnState) {
     isColumn.value = columnState;
   }
-  emit("heightHandler", input.height + (isColumn.value ? defaultHeight : 0));
+  const height = input.height + (isColumn.value ? defaultHeight : 0)
+  if (containerHeight !== height) {
+    containerHeight = height
+    emit("heightHandler",containerHeight );
+  }
 };
 
 const isColumn = ref<boolean>(false);

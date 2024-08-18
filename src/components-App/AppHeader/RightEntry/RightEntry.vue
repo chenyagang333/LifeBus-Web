@@ -95,7 +95,7 @@
       </template>
     </HugsPopoverWrap>
     <!-- 主题切换 -->
-    <AppThemeSwitching></AppThemeSwitching>
+    <AppThemeSwitching />
   </div>
 </template>
 
