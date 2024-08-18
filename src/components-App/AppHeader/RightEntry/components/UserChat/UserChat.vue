@@ -90,13 +90,16 @@ defineEmits<{
 
 const openDialog = ref<boolean>(false); // 会话框是否开启
 defineExpose({ openDialog });
-const isCollapse = ref<boolean>(false); // 是否展开左侧列表
+const isCollapse = ref<boolean>(false); // 是否折叠左侧列表
 const listOpenWidth = computed(() => (openDialog.value ? "240px" : "280px")); // 打开时的宽度
 const listCollapseWidth = "55px"; // 左侧列表收起时的宽度
 const listWidth = computed(() =>
   isCollapse.value ? listCollapseWidth : listOpenWidth.value
 );
 const openDialogHandler = async (data: UserDialog) => {
+  if (!isCollapse.value) {
+    isCollapse.value = true
+  }
   if (!openDialog.value) {
     openDialog.value = true;
   }
