@@ -3,7 +3,7 @@ import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 // 监听浏览器的回退行为来关闭弹窗
-export default function useEventListenerPopstate(_mark: string = '', _visible: boolean = false) {
+export default function useEventListenerPopstate(_mark: string, _visible: boolean = false) {
   const router = useRouter();
   const notPopstateBack = ref<boolean>(true);
   const visible = ref<boolean>(_visible);

@@ -59,8 +59,8 @@ const clickItem = (data: UserDialog, index: number) => {
 const data = ref<any[]>([]);
 
 onMounted(() => {
-  const res = GetDialogAndGroupsByUserId();
-  console.log("res :>> ", res);
+  // const res = GetDialogAndGroupsByUserId();
+  // console.log("res :>> ", res);
 });
 </script>
 

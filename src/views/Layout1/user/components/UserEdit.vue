@@ -68,7 +68,7 @@ const appStore = useAppStore();
 const userStore = useUserStore();
 
 // 编辑用户资料
-const { visible: visibleEdit } = useEventListenerPopstate();
+const { visible: visibleEdit } = useEventListenerPopstate('UserEdit_visibleEdit');
 const handleOk = async () => {
   const res = await post("User/EditUserData", {
     userAvatar: formLabelAlign.userAvatar.replace(appStore.fileBaseURL, ""),

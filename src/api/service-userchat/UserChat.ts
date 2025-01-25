@@ -1,4 +1,4 @@
-import { get } from "../http/api"
+import { get } from "@/api/http/api"
 
 export const GetDialogAndGroupsByUserId = () => {
     return get('UserChat/GetDialogAndGroupsByUserId')
